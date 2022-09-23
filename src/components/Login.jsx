@@ -42,7 +42,7 @@ export default function Login() {
       <label htmlFor="password">
         Senha:
         <input
-          type="text"
+          type="password"
           data-testid="password-input"
           value={ password }
           onChange={ ({ target: { value } }) => (handerChange(value, setPassword)) }
