@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
-import { fetchIngredients, fetchName, fetchFirstLetter } from '../services/fetchAPI';
+import { fetchSearchBar } from '../services/fetchAPI';
 
 export default function SearchBar({ title }) {
   const [textInput, setTextInput] = useState('');
@@ -12,27 +12,33 @@ export default function SearchBar({ title }) {
   const handerChange = (value, callback) => callback(value);
 
   const fetchMeals = async () => {
-    switch (radioInput) {
-    case 'ingredient': {
-      const response = await fetchIngredients(textInput, title);
-      setSearchResponse(response);
-      break;
+    if (textInput.length > 1 && radioInput === 'f') {
+      global.alert('Your search must have only 1 (one) character');
+      return null;
     }
-    case 'name': {
-      const response = await fetchName(textInput, title);
-      setSearchResponse(response);
-      break;
-    }
-    default: {
-      if (textInput.length > 1) {
-        global.alert('Your search must have only 1 (one) character');
-        break;
-      }
-      const response = await fetchFirstLetter(textInput, title);
-      setSearchResponse(response);
-      break;
-    }
-    }
+    const response = await fetchSearchBar(textInput, radioInput, title);
+    setSearchResponse(response);
+    // switch (radioInput) {
+    // case 'ingredient': {
+    //   const response = await fetchIngredients(textInput, title);
+    //   setSearchResponse(response);
+    //   break;
+    // }
+    // case 'name': {
+    //   const response = await fetchName(textInput, title);
+    //   setSearchResponse(response);
+    //   break;
+    // }
+    // default: {
+    //   if (textInput.length > 1) {
+    //     global.alert('Your search must have only 1 (one) character');
+    //     break;
+    //   }
+    //   const response = await fetchFirstLetter(textInput, title);
+    //   setSearchResponse(response);
+    //   break;
+    // }
+    // }
   };
 
   const handleSubmit = (e) => {
@@ -54,7 +60,7 @@ export default function SearchBar({ title }) {
         <input
           name="radios"
           id="ingredient"
-          value="ingredient"
+          value="i"
           type="radio"
           data-testid="ingredient-search-radio"
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
@@ -65,7 +71,7 @@ export default function SearchBar({ title }) {
         <input
           name="radios"
           id="name"
-          value="name"
+          value="s"
           type="radio"
           data-testid="name-search-radio"
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
@@ -76,7 +82,7 @@ export default function SearchBar({ title }) {
         <input
           name="radios"
           id="first letter"
-          value="first letter"
+          value="f"
           type="radio"
           data-testid="first-letter-search-radio"
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }

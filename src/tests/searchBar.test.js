@@ -19,7 +19,7 @@ describe('Test SeachBar for meals', () => {
     });
 
     renderPath('/meals');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -44,7 +44,7 @@ describe('Test SeachBar for meals', () => {
     });
 
     renderPath('/meals');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -71,7 +71,7 @@ describe('', () => {
     });
 
     renderPath('/meals');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -101,7 +101,7 @@ describe('', () => {
     global.fetch.mockResolvedValue('alerta');
 
     renderPath('/meals');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -132,7 +132,7 @@ describe('Test SeachBar for drinks', () => {
     });
 
     renderPath('/drinks');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -157,7 +157,7 @@ describe('Test SeachBar for drinks', () => {
     });
 
     renderPath('/drinks');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -184,7 +184,7 @@ describe('drinks', () => {
     });
 
     renderPath('/drinks');
-    const searchButton = screen.getByRole('button');
+    const searchButton = screen.getAllByRole('button')[0];
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
