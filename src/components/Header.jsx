@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import profile from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import '../Styles/Header.css';
+import iconeRecipesapp from '../images/iconeRecipesapp.png';
+import logoRecipesapp from '../images/logoRecipesapp.png';
+import foods from '../images/foods.png';
+import drinks from '../images/drinks.png';
 
 export default function Header({ title }) {
   const [searchBar, setSearchBar] = useState(false);
@@ -12,23 +17,53 @@ export default function Header({ title }) {
 
   const showSearchBar = () => setSearchBar((prev) => !prev);
 
+  const headIMG = title === 'Meals' ? foods : drinks;
+
   return (
-    <div>
-      <Link to="/profile">
-        <i data-testid="profile-top-btn" src={ profile }>
-          <img src={ profile } alt="profile" />
-        </i>
-      </Link>
-      {showSearch && (
-        <i data-testid="search-top-btn" src={ searchIcon }>
-          <button type="button" onClick={ showSearchBar }>
-            <img src={ searchIcon } alt="profile" />
-          </button>
-        </i>)}
-      <h2 data-testid="page-title">{ title }</h2>
-      <div>
-        { searchBar && <SearchBar title={ title } />}
+    <div className="headerContainer">
+      <div className="header">
+
+        <input
+          type="image"
+          alt="iconeRecipesapp"
+          className="recipesIcon"
+          src={ iconeRecipesapp }
+        />
+        <input
+          type="image"
+          alt="logoRecipesapp"
+          className="recipesNameLogo"
+          src={ logoRecipesapp }
+        />
+        <Link to="/profile">
+          <input
+            type="image"
+            className="profileIcon"
+            alt="profile"
+            src={ profile }
+            data-testid="profile-top-btn"
+          />
+        </Link>
+        {showSearch && (
+          <input
+            type="image"
+            className="searchIcon"
+            alt="searchIcon"
+            src={ searchIcon }
+            onClick={ showSearchBar }
+            data-testid="search-top-btn"
+          />
+        )}
       </div>
+      <input
+        type="image"
+        className="foodsIcon"
+        alt="foods"
+        src={ headIMG }
+        data-testid="page-title"
+      />
+      {/* <h2 data-testid="page-title">{ title }</h2> */}
+      { searchBar && <SearchBar title={ title } />}
     </div>
   );
 }

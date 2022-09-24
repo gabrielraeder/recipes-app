@@ -1,0 +1,38 @@
+.recipesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  left: 0;
+  margin-top: 130px;
+  width: 100%;
+}
+
+.recipeCard {
+  display: flex;
+  flex-flow: column wrap;
+  height: 150px;
+  left: 12px;
+  top: 250px;
+  width: 130px;
+}
+
+.recipeName {
+  color: #1a1b1c;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  height: 12px;
+  left: 26.81px;
+  line-height: 12px;
+  text-align: center;
+  top: 394.86px;
+  width: 130px;
+}
+
+.recipeIMG {
+  border-radius: 5px 5px 0 0;
+  height: 105px;
+  left: 12px;
+  top: 250px;
+  width: 130px;
+}

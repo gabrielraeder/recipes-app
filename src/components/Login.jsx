@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import '../Styles/Login.css';
+import recipeApp from '../images/recipeApp.png';
 
 const PASSWORD_LENGTH = 7;
 
@@ -29,26 +31,26 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <label htmlFor="email">
-        E-mail:
-        <input
-          type="text"
-          data-testid="email-input"
-          value={ email }
-          onChange={ ({ target: { value } }) => (handerChange(value, setEmail)) }
-        />
-      </label>
-      <label htmlFor="password">
-        Senha:
-        <input
-          type="password"
-          data-testid="password-input"
-          value={ password }
-          onChange={ ({ target: { value } }) => (handerChange(value, setPassword)) }
-        />
-      </label>
+    <div className="loginContainer">
+      <img className="recipeLogo" src={ recipeApp } alt="recipeApp logo" />
+      <input
+        className="email"
+        placeholder="E-mail"
+        type="text"
+        data-testid="email-input"
+        value={ email }
+        onChange={ ({ target: { value } }) => (handerChange(value, setEmail)) }
+      />
+      <input
+        className="password"
+        placeholder="Senha"
+        type="password"
+        data-testid="password-input"
+        value={ password }
+        onChange={ ({ target: { value } }) => (handerChange(value, setPassword)) }
+      />
       <button
+        className="loginBtn"
         type="button"
         data-testid="login-submit-btn"
         disabled={ !validateButton() }

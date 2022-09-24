@@ -1,0 +1,117 @@
+.searchContainer {
+  left: 11px;
+  margin-left: 15px;
+  margin-top: 8px;
+  width: 338px;
+}
+
+.hideSearch {
+  display: none;
+}
+
+.searchInput {
+  background: white;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 40px;
+  left: 10px;
+  top: 8px;
+  width: 338px;
+  z-index: 1;
+}
+
+.filtersContainer {
+  background: #41197f;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 88px;
+  left: 10px;
+  padding-top: 25px;
+  width: 338px;
+}
+
+.searchFilters {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.ingredientLabel {
+  color: white;
+  display: flex;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  height: 9px;
+  left: 89.32px;
+  line-height: 9px;
+  top: 223px;
+  width: 47.4px;
+}
+
+.ingredientInput {
+  background: white;
+  border-radius: 6px;
+  height: 10px;
+  left: 73.86px;
+  top: 222px;
+  width: 10.3px;
+}
+
+.nameLabel {
+  color: white;
+  display: flex;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  height: 9px;
+  left: 172.79px;
+  line-height: 9px;
+  top: 223px;
+  width: 28.85px;
+}
+
+.nameInput {
+  background: white;
+  border-radius: 6px;
+  height: 10px;
+  left: 157.33px;
+  top: 222px;
+  width: 10.3px;
+}
+
+.firstLabel {
+  color: white;
+  display: flex;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  height: 9px;
+  left: 234.62px;
+  line-height: 9px;
+  top: 223px;
+  width: 60px;
+}
+
+.firstInput {
+  background: white;
+  border-radius: 6px;
+  height: 10px;
+  left: 219.16px;
+  top: 222px;
+  width: 10.3px;
+}
+
+.searchButton {
+  align-self: center;
+  background: #fcc436;
+  border-radius: 5px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  height: 25px;
+  left: 73.86px;
+  top: 243px;
+  width: 208.16px;
+}

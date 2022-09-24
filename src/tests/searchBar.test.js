@@ -3,48 +3,30 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderPath from './helpers/RenderWithRouter';
-import ingredientMock from './mocks/ingredientMock';
+import oneMealMock from './mocks/oneMealMock';
+import oneDrinkMock from './mocks/oneDrinkMock';
+import { emptyMeals } from './mocks/emptyMock';
+import mealsMock from './mocks/mealsMock';
+
+const testForMeals = 'Test SearchBar for meals';
 
 const searchInputTestId = 'search-input';
 const execSearchtestId = 'exec-search-btn';
 const firstLetterTestId = 'first-letter-search-radio';
 const ingredientTestId = 'ingredient-search-radio';
 const nameTestId = 'name-search-radio';
+const searchBtnId = 'search-top-btn';
+const alert = 'Sorry, we haven\'t found any recipes for these filters.';
 
-describe('Test SeachBar for meals', () => {
-  it('Test Searching for ingredient', async () => {
+describe(testForMeals, () => {
+  it('Test Searching for ingredient and routing to page /meals/52771', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(oneMealMock),
     });
 
-    renderPath('/meals');
-    const searchButton = screen.getAllByRole('button')[0];
-
-    userEvent.click(searchButton);
-    const searchInput = screen.getByTestId(searchInputTestId);
-
-    userEvent.type(searchInput, 'milk');
-    expect(searchInput).toHaveValue('milk');
-
-    userEvent.click(screen.getByTestId(ingredientTestId));
-    expect(screen.getByTestId(ingredientTestId)).toBeTruthy();
-
-    act(() => {
-      userEvent.click(screen.getByTestId(execSearchtestId));
-    });
-
-    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-  });
-
-  it('Test Searching for name', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
-    });
-
-    renderPath('/meals');
-    const searchButton = screen.getAllByRole('button')[0];
+    const { history } = renderPath('/meals');
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -53,25 +35,58 @@ describe('Test SeachBar for meals', () => {
     expect(searchInput).toHaveValue('milk');
 
     userEvent.click(screen.getByTestId(nameTestId));
-    expect(screen.getByTestId(nameTestId)).toBeTruthy();
+
+    userEvent.click(screen.getByTestId(ingredientTestId));
+    expect(screen.getByTestId(ingredientTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    expect(history.location.pathname).toBe('/meals/52771');
   });
 });
 
-describe('', () => {
-  it('Test Searching for firstletter', async () => {
+describe(testForMeals, () => {
+  it('Test Searching for name', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(mealsMock),
     });
 
     renderPath('/meals');
-    const searchButton = screen.getAllByRole('button')[0];
+    const searchButton = screen.getByTestId(searchBtnId);
+
+    userEvent.click(searchButton);
+    const searchInput = screen.getByTestId(searchInputTestId);
+
+    userEvent.type(searchInput, 'milk');
+    expect(searchInput).toHaveValue('milk');
+
+    userEvent.click(screen.getByTestId(nameTestId));
+    expect(screen.getByTestId(nameTestId)).toBeChecked();
+
+    act(() => {
+      userEvent.click(screen.getByTestId(execSearchtestId));
+    });
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
+    expect(screen.getByTestId('0-recipe-card')).toBeInTheDocument();
+    expect(screen.getByTestId('1-recipe-card')).toBeInTheDocument();
+  });
+});
+
+describe(testForMeals, () => {
+  it('Test Searching for firstletter', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(oneMealMock),
+    });
+
+    renderPath('/meals');
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -80,7 +95,7 @@ describe('', () => {
     expect(searchInput).toHaveValue('m');
 
     userEvent.click(screen.getByTestId(firstLetterTestId));
-    expect(screen.getByTestId(firstLetterTestId)).toBeTruthy();
+    expect(screen.getByTestId(firstLetterTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
@@ -90,18 +105,18 @@ describe('', () => {
   });
 });
 
-describe('', () => {
-  it('', async () => {
+describe('Tests global alert', () => {
+  it('test global alert for 1 letter search', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(oneMealMock),
     });
 
     jest.spyOn(global, 'alert');
-    global.fetch.mockResolvedValue('alerta');
+    global.alert.mockResolvedValue('alerta');
 
     renderPath('/meals');
-    const searchButton = screen.getAllByRole('button')[0];
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -110,7 +125,7 @@ describe('', () => {
     expect(searchInput).toHaveValue('milk');
 
     userEvent.click(screen.getByTestId(firstLetterTestId));
-    expect(screen.getByTestId(firstLetterTestId)).toBeTruthy();
+    expect(screen.getByTestId(firstLetterTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
@@ -124,15 +139,15 @@ describe('', () => {
 //   it('', () => {
 //   });
 // });
-describe('Test SeachBar for drinks', () => {
-  it('Test Searching for ingredient', async () => {
+describe('Test SearchBar for drinks', () => {
+  it('Test Searching for ingredient, and routing to page /drinks/178319', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(oneDrinkMock),
     });
 
-    renderPath('/drinks');
-    const searchButton = screen.getAllByRole('button')[0];
+    const { history } = renderPath('/drinks');
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -141,23 +156,24 @@ describe('Test SeachBar for drinks', () => {
     expect(searchInput).toHaveValue('milk');
 
     userEvent.click(screen.getByTestId(ingredientTestId));
-    expect(screen.getByTestId(ingredientTestId)).toBeTruthy();
+    expect(screen.getByTestId(ingredientTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    expect(history.location.pathname).toBe('/drinks/178319');
   });
 
   it('Test Searching for name', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(oneDrinkMock),
     });
 
     renderPath('/drinks');
-    const searchButton = screen.getAllByRole('button')[0];
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -166,7 +182,7 @@ describe('Test SeachBar for drinks', () => {
     expect(searchInput).toHaveValue('milk');
 
     userEvent.click(screen.getByTestId(nameTestId));
-    expect(screen.getByTestId(nameTestId)).toBeTruthy();
+    expect(screen.getByTestId(nameTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
@@ -176,15 +192,15 @@ describe('Test SeachBar for drinks', () => {
   });
 });
 
-describe('drinks', () => {
+describe('Test SearchBar for drinks', () => {
   it('Test Searching for firstletter', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(ingredientMock),
+      json: jest.fn().mockResolvedValue(oneDrinkMock),
     });
 
     renderPath('/drinks');
-    const searchButton = screen.getAllByRole('button')[0];
+    const searchButton = screen.getByTestId(searchBtnId);
 
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
@@ -193,12 +209,42 @@ describe('drinks', () => {
     expect(searchInput).toHaveValue('m');
 
     userEvent.click(screen.getByTestId(firstLetterTestId));
-    expect(screen.getByTestId(firstLetterTestId)).toBeTruthy();
+    expect(screen.getByTestId(firstLetterTestId)).toBeChecked();
 
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+  });
+});
+
+describe('Tests global alert', () => {
+  it('alerts that no Meals recipes were found', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(emptyMeals),
+    });
+
+    jest.spyOn(global, 'alert');
+    global.alert.mockResolvedValue('alerta');
+
+    renderPath('/meals');
+    const searchButton = screen.getByTestId(searchBtnId);
+
+    userEvent.click(searchButton);
+    const searchInput = screen.getByTestId(searchInputTestId);
+
+    userEvent.type(searchInput, 'apple');
+    expect(searchInput).toHaveValue('apple');
+
+    userEvent.click(screen.getByTestId(ingredientTestId));
+    expect(screen.getByTestId(ingredientTestId)).toBeChecked();
+
+    act(() => {
+      userEvent.click(screen.getByTestId(execSearchtestId));
+    });
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    await waitFor(() => expect(global.alert).toHaveBeenCalledWith(alert));
   });
 });
