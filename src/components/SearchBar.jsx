@@ -1,11 +1,14 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import { fetchSearchBar } from '../services/fetchAPI';
 
 export default function SearchBar({ title }) {
   const [textInput, setTextInput] = useState('');
-  const [radioInput, setRadioInput] = useState('');
+  const [radioInput, setRadioInput] = useState('i');
+
+  const history = useHistory();
 
   const { setSearchResponse } = useContext(Context);
 
@@ -17,6 +20,10 @@ export default function SearchBar({ title }) {
       return null;
     }
     const response = await fetchSearchBar(textInput, radioInput, title);
+    if (response[title.toLowerCase()].length === 1) {
+      const id = response[title.toLowerCase()][0][`id${title.replace('s', '')}`];
+      history.push(`/${title.toLowerCase()}/${id}`);
+    }
     setSearchResponse(response);
     // switch (radioInput) {
     // case 'ingredient': {
@@ -63,6 +70,7 @@ export default function SearchBar({ title }) {
           value="i"
           type="radio"
           data-testid="ingredient-search-radio"
+          checked={ radioInput === 'i' }
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
         />
       </label>
@@ -74,6 +82,7 @@ export default function SearchBar({ title }) {
           value="s"
           type="radio"
           data-testid="name-search-radio"
+          checked={ radioInput === 's' }
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
         />
       </label>
@@ -85,6 +94,7 @@ export default function SearchBar({ title }) {
           value="f"
           type="radio"
           data-testid="first-letter-search-radio"
+          checked={ radioInput === 'f' }
           onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
         />
       </label>

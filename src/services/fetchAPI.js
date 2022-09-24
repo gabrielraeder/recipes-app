@@ -15,7 +15,8 @@ export const fetchName = async (value, title) => {
 export const fetchSearchBar = async (value, radio, title) => {
   const drinkOrMeal = title === 'Meals' ? 'meal' : 'cocktail';
   const search = radio === 'i' ? 'filter' : 'search';
-  const url = `https://www.the${drinkOrMeal}db.com/api/json/v1/1/${search}.php?${radio}=${value}`;
+  const noSpace = value.replaceAll(' ', '+');
+  const url = `https://www.the${drinkOrMeal}db.com/api/json/v1/1/${search}.php?${radio}=${noSpace}`;
   const response = await fetch(url).then((resp) => resp.json()).then((data) => data);
   return response;
 };
