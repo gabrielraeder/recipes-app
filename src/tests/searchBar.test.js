@@ -42,7 +42,6 @@ describe(testForMeals, () => {
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
-
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(history.location.pathname).toBe('/meals/52771');
   });
