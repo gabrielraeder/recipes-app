@@ -2,16 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { fetchByID } from '../services/fetchAPI';
 
-// const FIRST_INGREDIENT = 17;
-// const LAST_INGREDIENT = 32;
-// const FIRST_MEASURE = 32;
-// const LAST_MEASURE = 47;
-
 export default function DrinkDetail({ id }) {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
+  // faz o fetch apartir do ID e coloca a receita no estado do componente.
   useEffect(() => {
     const idFetch = async () => {
       const { drinks } = await fetchByID(id, 'Drinks');
@@ -20,6 +16,7 @@ export default function DrinkDetail({ id }) {
     idFetch();
   }, []);
 
+  // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
   useEffect(() => {
     const FIRST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient1');
     const LAST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient15');

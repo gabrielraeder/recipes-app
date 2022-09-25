@@ -7,6 +7,7 @@ export default function MealDetail({ id }) {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
+  // faz o fetch apartir do ID e coloca a receita no estado do componente.
   useEffect(() => {
     const idFetch = async () => {
       const { meals } = await fetchByID(id, 'Meals');
@@ -15,6 +16,7 @@ export default function MealDetail({ id }) {
     idFetch();
   }, []);
 
+  // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
   useEffect(() => {
     const FIRST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient1');
     const LAST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient20');

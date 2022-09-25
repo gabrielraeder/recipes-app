@@ -5,6 +5,7 @@ import DrinkDetail from '../components/DrinkDetail';
 import '../Styles/RecipeDetails.css';
 
 export default function RecipeDetails({ match }) {
+  // define qual componente exibir baseado no URL da pagina (/meals/:id ou /drinks/:id )
   const mealOrDrink = () => {
     const { params: { id } } = match;
     if (match.url.includes('meals')) {
