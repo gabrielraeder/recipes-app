@@ -5,7 +5,7 @@ import RecipeCard from './RecipeCard';
 
 const LAST_CARD = 12;
 
-export default function RecipesList({ title }) {
+export default function Recipes({ title }) {
   const [recipes, setRecipes] = useState([]);
 
   const { searchResponse } = useContext(Context);
@@ -18,23 +18,25 @@ export default function RecipesList({ title }) {
 
   return (
     <div className="recipesContainer">
-      {
-        recipes.map((recipe, index) => {
-          if (index >= LAST_CARD) return null;
-          return (
-            <RecipeCard
-              key={ recipe[id] }
-              title={ title }
-              recipe={ recipe }
-              index={ index }
-            />
-          );
-        })
-      }
+      <ul className="recipesList">
+        {
+          recipes.map((recipe, index) => {
+            if (index >= LAST_CARD) return null;
+            return (
+              <RecipeCard
+                key={ recipe[id] }
+                title={ title }
+                recipe={ recipe }
+                index={ index }
+              />
+            );
+          })
+        }
+      </ul>
     </div>
   );
 }
 
-RecipesList.propTypes = {
+Recipes.propTypes = {
   title: PropTypes.string.isRequired,
 };

@@ -3,6 +3,7 @@
   margin-left: 15px;
   margin-top: 8px;
   width: 338px;
+  z-index: 1;
 }
 
 .hideSearch {

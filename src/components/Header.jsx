@@ -7,8 +7,6 @@ import SearchBar from './SearchBar';
 import '../Styles/Header.css';
 import iconeRecipesapp from '../images/iconeRecipesapp.png';
 import logoRecipesapp from '../images/logoRecipesapp.png';
-import foods from '../images/foods.png';
-import drinks from '../images/drinks.png';
 
 export default function Header({ title }) {
   const [searchBar, setSearchBar] = useState(false);
@@ -16,8 +14,6 @@ export default function Header({ title }) {
   const showSearch = title === 'Meals' || title === 'Drinks';
 
   const showSearchBar = () => setSearchBar((prev) => !prev);
-
-  const headIMG = title === 'Meals' ? foods : drinks;
 
   return (
     <div className="headerContainer">
@@ -55,14 +51,19 @@ export default function Header({ title }) {
           />
         )}
       </div>
-      <input
+      {/* <input
         type="image"
         className="foodsIcon"
         alt="foods"
         src={ headIMG }
         data-testid="page-title"
-      />
-      {/* <h2 data-testid="page-title">{ title }</h2> */}
+      /> */}
+      <h2
+        className="foodsIcon"
+        data-testid="page-title"
+      >
+        <strong>{ title }</strong>
+      </h2>
       { searchBar && <SearchBar title={ title } />}
     </div>
   );

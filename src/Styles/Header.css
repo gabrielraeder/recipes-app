@@ -1,11 +1,10 @@
 .headerContainer {
   display: flex;
   flex-direction: column;
-  height: 147px;
   left: 0;
   margin: 0;
-  top: 0;
   width: 100%;
+  position: fixed;
 }
 
 .recipesIcon {
@@ -42,11 +41,6 @@
 
 .foodsIcon {
   align-self: center;
-  height: 64px;
-  left: 107px;
-  margin-top: 60px;
-  top: 83px;
-  width: 147px;
 }
 
 .header {

@@ -4,20 +4,14 @@ import Context from './Context';
 
 export default function Provider({ children }) {
   const [searchResponse, setSearchResponse] = useState({ meals: [], drinks: [] });
+  const [categories, setCategories] = useState([]);
 
   const context = {
     searchResponse,
-    ...searchResponse,
+    categories,
     setSearchResponse,
+    setCategories,
   };
-
-  // const context = useMemo(() => (
-  //   {
-  //     searchResponse,
-  //     ...searchResponse,
-  //     setSearchResponse,
-  //   }
-  // ), []);
 
   return (
     <Context.Provider value={ context }>{ children }</Context.Provider>

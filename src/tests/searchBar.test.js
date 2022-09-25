@@ -8,6 +8,9 @@ import oneDrinkMock from './mocks/oneDrinkMock';
 import { emptyMeals } from './mocks/emptyMock';
 import mealsMock from './mocks/mealsMock';
 
+const meals = require('../../cypress/mocks/meals');
+const mealCategories = require('../../cypress/mocks/mealCategories');
+
 const testForMeals = 'Test SearchBar for meals';
 
 const searchInputTestId = 'search-input';
@@ -104,36 +107,6 @@ describe(testForMeals, () => {
   });
 });
 
-describe('Tests global alert', () => {
-  it('test global alert for 1 letter search', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneMealMock),
-    });
-
-    jest.spyOn(global, 'alert');
-    global.alert.mockResolvedValue('alerta');
-
-    renderPath('/meals');
-    const searchButton = screen.getByTestId(searchBtnId);
-
-    userEvent.click(searchButton);
-    const searchInput = screen.getByTestId(searchInputTestId);
-
-    userEvent.type(searchInput, 'milk');
-    expect(searchInput).toHaveValue('milk');
-
-    userEvent.click(screen.getByTestId(firstLetterTestId));
-    expect(screen.getByTestId(firstLetterTestId)).toBeChecked();
-
-    act(() => {
-      userEvent.click(screen.getByTestId(execSearchtestId));
-    });
-
-    await waitFor(() => expect(global.alert).toHaveBeenCalled());
-  });
-});
-
 // describe('', () => {
 //   it('', () => {
 //   });
@@ -222,7 +195,9 @@ describe('Tests global alert', () => {
   it('alerts that no Meals recipes were found', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(emptyMeals),
+      json: jest.fn().mockResolvedValue(emptyMeals)
+        .mockResolvedValueOnce(meals)
+        .mockResolvedValueOnce(mealCategories),
     });
 
     jest.spyOn(global, 'alert');
@@ -245,5 +220,35 @@ describe('Tests global alert', () => {
     });
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     await waitFor(() => expect(global.alert).toHaveBeenCalledWith(alert));
+  });
+});
+
+describe('Tests global alert', () => {
+  it('test global alert for 1 letter search', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(oneMealMock),
+    });
+
+    jest.spyOn(global, 'alert');
+    global.alert.mockResolvedValue('alerta');
+
+    renderPath('/meals');
+    const searchButton = screen.getByTestId(searchBtnId);
+
+    userEvent.click(searchButton);
+    const searchInput = screen.getByTestId(searchInputTestId);
+
+    userEvent.type(searchInput, 'milk');
+    expect(searchInput).toHaveValue('milk');
+
+    userEvent.click(screen.getByTestId(firstLetterTestId));
+    expect(screen.getByTestId(firstLetterTestId)).toBeChecked();
+
+    act(() => {
+      userEvent.click(screen.getByTestId(execSearchtestId));
+    });
+
+    await waitFor(() => expect(global.alert).toHaveBeenCalled());
   });
 });
