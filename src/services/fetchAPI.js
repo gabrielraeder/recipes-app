@@ -27,3 +27,10 @@ export const fetchThruCategory = async (category, title) => {
   const response = await fetch(url).then((resp) => resp.json()).then((data) => data);
   return response;
 };
+
+export const fetchByID = async (id, title) => {
+  const search = title === 'Meals' ? 'meal' : 'cocktail';
+  const url = `https://www.the${search}db.com/api/json/v1/1/lookup.php?i=${id}`;
+  const response = await fetch(url).then((resp) => resp.json()).then((data) => data);
+  return response;
+};
