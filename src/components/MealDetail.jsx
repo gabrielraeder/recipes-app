@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { fetchByID } from '../services/fetchAPI';
+import Recommendations from './Recommendations';
+import { fetchByID, fetchInitialItems } from '../services/fetchAPI';
 
 export default function MealDetail({ id }) {
   const [recipe, setRecipe] = useState([]);
+  const [recommendation, setRecommendation] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
@@ -14,6 +16,14 @@ export default function MealDetail({ id }) {
       setRecipe(meals[0]);
     };
     idFetch();
+  }, []);
+
+  useEffect(() => {
+    const RecommendationDrinksFetch = async () => {
+      const { drinks } = await fetchInitialItems('Drinks');
+      setRecommendation(drinks);
+    };
+    RecommendationDrinksFetch();
   }, []);
 
   // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
@@ -56,13 +66,18 @@ export default function MealDetail({ id }) {
           title="YTVideo"
           width="280"
           height="165"
-          src={ recipe?.strYoutube?.replace('watch', 'embed') }
+          src={ recipe?.strYoutube?.replace('watch?v=', 'embed/') }
           data-testid="video"
         >
           youtube
         </iframe>
 
       </div>
+      {
+        recommendation.length > 0 && (
+          <Recommendations recommendations={ recommendation } title="Drinks" />
+        )
+      }
     </div>
   );
 }

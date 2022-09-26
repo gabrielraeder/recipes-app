@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { fetchByID } from '../services/fetchAPI';
+import Recommendations from './Recommendations';
+import { fetchByID, fetchInitialItems } from '../services/fetchAPI';
 
 export default function DrinkDetail({ id }) {
   const [recipe, setRecipe] = useState([]);
+  const [recommendation, setRecommendation] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
 
@@ -14,6 +16,14 @@ export default function DrinkDetail({ id }) {
       setRecipe(drinks[0]);
     };
     idFetch();
+  }, []);
+
+  useEffect(() => {
+    const RecommendationFoodFetch = async () => {
+      const { meals } = await fetchInitialItems('Meals');
+      setRecommendation(meals);
+    };
+    RecommendationFoodFetch();
   }, []);
 
   // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
@@ -57,6 +67,11 @@ export default function DrinkDetail({ id }) {
       <fieldset>
         <p data-testid="instructions">{ recipe?.strInstructions }</p>
       </fieldset>
+      {
+        recommendation.length > 0 && (
+          <Recommendations recommendations={ recommendation } title="Meals" />
+        )
+      }
     </div>
   );
 }

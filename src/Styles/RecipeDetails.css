@@ -5,3 +5,7 @@
   top: 250px;
   width: 130px;
 }
+
+.carouselItem {
+  display: flex;
+}
