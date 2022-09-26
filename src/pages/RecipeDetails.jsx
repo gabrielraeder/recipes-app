@@ -5,10 +5,15 @@ import MealDetail from '../components/MealDetail';
 import DrinkDetail from '../components/DrinkDetail';
 import '../Styles/RecipeDetails.css';
 import { getSavedByKey, getSavedInProgress } from '../services/localStorage';
+import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+
+const copy = require('clipboard-copy');
 
 export default function RecipeDetails({ match }) {
   const [isDone, setIsDone] = useState(false);
   const [isInProgress, setIsInProgress] = useState(false);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   useEffect(() => {
     const { params: { id } } = match;
@@ -36,8 +41,33 @@ export default function RecipeDetails({ match }) {
     return (<DrinkDetail id={ id } />);
   };
 
+  const copyToClipBoard = () => {
+    copy(`http://localhost:3000${match.url}`);
+    setIsLinkCopied(true);
+  };
+
   return (
-    <div>
+    <div className="recipePage">
+      <div>
+        <input
+          type="image"
+          alt="blackHeart"
+          className="blackHeart"
+          data-testid="favorite-btn"
+          src={ blackHeartIcon }
+        />
+        <input
+          type="image"
+          alt="shareIcon"
+          className="shareIcon"
+          data-testid="share-btn"
+          src={ shareIcon }
+          onClick={ copyToClipBoard }
+        />
+      </div>
+      <div>
+        { isLinkCopied && <p>Link copied!</p> }
+      </div>
       {mealOrDrink()}
       { !isDone && (
         <Link to={ `${match.url}/in-progress` }>
