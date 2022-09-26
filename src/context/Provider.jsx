@@ -5,12 +5,15 @@ import Context from './Context';
 export default function Provider({ children }) {
   const [searchResponse, setSearchResponse] = useState({ meals: [], drinks: [] });
   const [categories, setCategories] = useState([]);
+  const [recipeInProgress, setRecipeInProgress] = useState([]);
 
   const context = {
     searchResponse,
     categories,
+    recipeInProgress,
     setSearchResponse,
     setCategories,
+    setRecipeInProgress,
   };
 
   return (

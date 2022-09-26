@@ -52,3 +52,14 @@ export const getSavedByKey = (key) => {
   const savedOnKey = readSpecificKey(key);
   return savedOnKey;
 };
+
+export const getSavedInProgress = () => {
+  if (!JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
+      drinks: {},
+      meals: {},
+    }));
+  }
+  const savedOnKey = readSpecificKey('inProgressRecipes');
+  return savedOnKey;
+};
