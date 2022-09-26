@@ -61,6 +61,6 @@ export default function Recommendations({ recommendations, title }) {
 }
 
 Recommendations.propTypes = {
-  recommendations: PropTypes.arrayOf().isRequired,
+  recommendations: PropTypes.arrayOf(PropTypes.shape().isRequired).isRequired,
   title: PropTypes.string.isRequired,
 };

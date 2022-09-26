@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import MealDetail from '../components/MealDetail';
 import DrinkDetail from '../components/DrinkDetail';
 import '../Styles/RecipeDetails.css';
@@ -39,13 +40,15 @@ export default function RecipeDetails({ match }) {
     <div>
       {mealOrDrink()}
       { !isDone && (
-        <button
-          className="startRecipeBtn"
-          type="button"
-          data-testid="start-recipe-btn"
-        >
-          { isInProgress ? 'Continue Recipe' : 'Start Recipe' }
-        </button>
+        <Link to={ `${match.url}/in-progress` }>
+          <button
+            className="startRecipeBtn"
+            type="button"
+            data-testid="start-recipe-btn"
+          >
+            { isInProgress ? 'Continue Recipe' : 'Start Recipe' }
+          </button>
+        </Link>
       )}
     </div>
   );

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Recommendations from './Recommendations';
 import { fetchByID, fetchInitialItems } from '../services/fetchAPI';
+import Context from '../context/Context';
 
 export default function DrinkDetail({ id }) {
   const [recipe, setRecipe] = useState([]);
   const [recommendation, setRecommendation] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+
+  const { setRecipeInProgress } = useContext(Context);
 
   // faz o fetch apartir do ID e coloca a receita no estado do componente.
   useEffect(() => {
@@ -25,6 +28,10 @@ export default function DrinkDetail({ id }) {
     };
     RecommendationFoodFetch();
   }, []);
+
+  useEffect(() => {
+    setRecipeInProgress(recipe);
+  }, [recipe]);
 
   // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
   useEffect(() => {
