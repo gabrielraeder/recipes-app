@@ -1,0 +1,34 @@
+.loginContainer {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.recipeLogo {
+  filter: drop-shadow(0.786px 13.357px 10.214px rgba(33, 18, 55, 0.2));
+  height: 157.25px;
+  left: 81px;
+  top: 79.17px;
+  width: 198px;
+}
+
+.email {
+  height: 40px;
+  left: 42px;
+  top: 564px;
+  width: 276px;
+}
+
+.password {
+  height: 40px;
+  left: 42px;
+  top: 613px;
+  width: 276px;
+}
+
+.loginBtn {
+  height: 40px;
+  left: 42px;
+  top: 662px;
+  width: 276px;
+}

@@ -6,7 +6,7 @@ export default function Profile() {
   return (
     <div>
       <Header title="Profile" />
-      <Footer />
+      <Footer title="Profile" />
     </div>
   );
 }

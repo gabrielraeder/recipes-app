@@ -1,0 +1,53 @@
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  margin: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.recipesIcon {
+  height: 39.28px;
+  left: 26px;
+  position: absolute;
+  top: 6px;
+  width: 42.6px;
+}
+
+.recipesNameLogo {
+  height: 16.97px;
+  left: 89.37px;
+  position: absolute;
+  top: 20.78px;
+  width: 109.13px;
+}
+
+.searchIcon {
+  height: 26.85px;
+  left: 267px;
+  position: absolute;
+  top: 14px;
+  width: 26.85px;
+}
+
+.profileIcon {
+  height: 28.71px;
+  left: 310px;
+  position: absolute;
+  top: 13px;
+  width: 28.71px;
+}
+
+.foodsIcon {
+  align-self: center;
+}
+
+.header {
+  background-color: #fcdc36;
+  height: 52px;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
