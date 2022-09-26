@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import { fetchSearchBar } from '../services/fetchAPI';
-import '../Styles/SearchBar.css';
+// import '../Styles/SearchBar.css';
 
 export default function SearchBar({ title }) {
   const [textInput, setTextInput] = useState('');
@@ -15,6 +15,9 @@ export default function SearchBar({ title }) {
 
   const handerChange = (value, callback) => callback(value);
 
+  // fetch baseado nos states e no title, onde title define se pesquisará na API de bebidas o comidas
+  // condicional 1: se o retorno da API é nulo retorna um alerta
+  // condicional 2: se o retorno da API possui 1 receita somente, encaminha para página de tal receita
   const fetchMeals = async () => {
     const response = await fetchSearchBar(textInput, radioInput, title);
     if (response[title.toLowerCase()] === null) {
@@ -28,6 +31,7 @@ export default function SearchBar({ title }) {
     setSearchResponse(response);
   };
 
+  // condicional: se buscar por primeira letra, digitando mais de uma letra, um alerta é exibido.
   const handleSubmit = (e) => {
     e.preventDefault();
     if (textInput.length > 1 && radioInput === 'f') {

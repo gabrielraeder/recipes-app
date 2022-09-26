@@ -3,13 +3,20 @@ import PropTypes from 'prop-types';
 import '../Styles/RecipeCard.css';
 import { Link } from 'react-router-dom';
 
-export default function RecipeCard({ recipe, index, title }) {
+export default function RecipeCard({ recipe, index, title, recipesOrRecomm }) {
   const thumb = `str${title.replace('s', '')}Thumb`;
   const string = `str${title.replace('s', '')}`;
   const id = recipe[`id${title.replace('s', '')}`];
+
+  const titleID = recipesOrRecomm === 'recipes'
+    ? `${index}-recipe-card` : `${index}-recommendation-card`;
+
+  const nameID = recipesOrRecomm === 'recipes'
+    ? `${index}-card-name` : `${index}-recommendation-title`;
+
   return (
     <Link to={ `/${title.toLowerCase()}/${id}` }>
-      <li className="recipeCard" data-testid={ `${index}-recipe-card` }>
+      <li className="recipeCard" data-testid={ titleID }>
         <img
           src={ recipe[thumb] }
           alt={ recipe[string] }
@@ -18,7 +25,7 @@ export default function RecipeCard({ recipe, index, title }) {
         />
         <h4
           className="recipeName"
-          data-testid={ `${index}-card-name` }
+          data-testid={ nameID }
         >
           { recipe[string] }
         </h4>
@@ -31,4 +38,5 @@ RecipeCard.propTypes = {
   index: PropTypes.number.isRequired,
   recipe: PropTypes.shape().isRequired,
   title: PropTypes.string.isRequired,
+  recipesOrRecomm: PropTypes.string.isRequired,
 };

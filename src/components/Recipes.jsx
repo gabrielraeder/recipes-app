@@ -10,6 +10,7 @@ export default function Recipes({ title }) {
 
   const { searchResponse } = useContext(Context);
 
+  // recupera as receitas salvas no Context, baseado no title (Meals ou Drinks)
   useEffect(() => {
     setRecipes(searchResponse[title.toLowerCase()]);
   }, [searchResponse]);
@@ -28,6 +29,7 @@ export default function Recipes({ title }) {
                 title={ title }
                 recipe={ recipe }
                 index={ index }
+                recipesOrRecomm="recipes"
               />
             );
           })
