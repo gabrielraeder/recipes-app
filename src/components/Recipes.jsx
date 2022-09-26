@@ -29,6 +29,7 @@ export default function Recipes({ title }) {
                 title={ title }
                 recipe={ recipe }
                 index={ index }
+                recipesOrRecomm="recipes"
               />
             );
           })
