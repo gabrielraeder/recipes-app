@@ -2,6 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import renderPath from './helpers/RenderWithRouter';
+import oneMealMock from './mocks/oneMealMock';
 
 const meals = require('../../cypress/mocks/meals');
 const drinks = require('../../cypress/mocks/drinks');
@@ -84,27 +85,6 @@ describe('Clicks Category buttons', () => {
   });
 });
 
-describe('Tests Clicking recipe card', () => {
-  it('clicks the recipe card and redirects to /meals/52978', async () => {
-    jest.spyOn(global, 'fetch');
-    global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mealCategories).mockResolvedValueOnce(meals),
-    });
-
-    const { history } = renderPath('/meals');
-
-    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-
-    const listItem = screen.getAllByRole('listitem');
-    expect(listItem).toHaveLength(12);
-
-    const card = screen.getByTestId('1-recipe-card');
-    userEvent.click(card);
-
-    expect(history.location.pathname).toBe('/meals/52978');
-  });
-});
-
 describe('Tests Clicking All Button on drinks page', () => {
   it('clicks on the all button after going to another category', async () => {
     jest.spyOn(global, 'fetch');
@@ -169,6 +149,30 @@ describe('Tests Clicking All Button on meals page', () => {
     expect(screen.getAllByRole('listitem')).toHaveLength(12);
     expect(screen.getByText('Corba')).toBeInTheDocument();
     expect(screen.getAllByRole('listitem')[2].children[1]).toHaveTextContent('Dal fry');
+  });
+});
+
+describe('Tests Clicking recipe card', () => {
+  it('clicks the recipe card and redirects to /meals/52978', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(drinks)
+        .mockResolvedValueOnce(meals)
+        .mockResolvedValueOnce(mealCategories)
+        .mockResolvedValueOnce(oneMealMock),
+    });
+
+    const { history } = renderPath('/meals');
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
+    const listItem = screen.getAllByRole('listitem');
+    expect(listItem).toHaveLength(12);
+
+    const card = screen.getByTestId('1-recipe-card');
+    userEvent.click(card);
+
+    expect(history.location.pathname).toBe('/meals/52978');
   });
 });
 

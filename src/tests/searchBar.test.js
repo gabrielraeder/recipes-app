@@ -7,9 +7,14 @@ import oneMealMock from './mocks/oneMealMock';
 import oneDrinkMock from './mocks/oneDrinkMock';
 import { emptyMeals } from './mocks/emptyMock';
 import mealsMock from './mocks/mealsMock';
+import doneRecipesMock from './mocks/doneRecipesMock';
+
+const localStorage = require('../services/localStorage');
 
 const meals = require('../../cypress/mocks/meals');
 const mealCategories = require('../../cypress/mocks/mealCategories');
+const drinks = require('../../cypress/mocks/drinks');
+const drinkCategories = require('../../cypress/mocks/drinkCategories');
 
 const testForMeals = 'Test SearchBar for meals';
 
@@ -25,8 +30,14 @@ describe(testForMeals, () => {
   it('Test Searching for ingredient and routing to page /meals/52771', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneMealMock),
+      json: jest.fn().mockResolvedValue(drinks)
+        .mockResolvedValueOnce(meals)
+        .mockResolvedValueOnce(mealCategories)
+        .mockResolvedValueOnce(oneMealMock)
+        .mockResolvedValueOnce(oneMealMock),
     });
+
+    localStorage.getSavedByKey = jest.fn().mockReturnValueOnce(doneRecipesMock);
 
     const { history } = renderPath('/meals');
     const searchButton = screen.getByTestId(searchBtnId);
@@ -45,8 +56,11 @@ describe(testForMeals, () => {
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
+
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(history.location.pathname).toBe('/meals/52771');
+    const button = screen.getByTestId('start-recipe-btn');
+    expect(button).toBeInTheDocument();
   });
 });
 
@@ -84,7 +98,7 @@ describe(testForMeals, () => {
   it('Test Searching for firstletter', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneMealMock),
+      json: jest.fn().mockResolvedValue(mealCategories).mockResolvedValueOnce(meals),
     });
 
     renderPath('/meals');
@@ -115,25 +129,24 @@ describe('Test SearchBar for drinks', () => {
   it('Test Searching for ingredient, and routing to page /drinks/178319', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneDrinkMock),
+      json: jest.fn().mockResolvedValue(meals)
+        .mockResolvedValueOnce(drinks)
+        .mockResolvedValueOnce(drinkCategories)
+        .mockResolvedValueOnce(oneDrinkMock)
+        .mockResolvedValueOnce(oneDrinkMock),
     });
-
+    localStorage.getSavedByKey = jest.fn().mockReturnValueOnce(doneRecipesMock);
     const { history } = renderPath('/drinks');
     const searchButton = screen.getByTestId(searchBtnId);
-
     userEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchInputTestId);
-
     userEvent.type(searchInput, 'milk');
     expect(searchInput).toHaveValue('milk');
-
     userEvent.click(screen.getByTestId(ingredientTestId));
     expect(screen.getByTestId(ingredientTestId)).toBeChecked();
-
     act(() => {
       userEvent.click(screen.getByTestId(execSearchtestId));
     });
-
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(history.location.pathname).toBe('/drinks/178319');
   });
@@ -141,9 +154,10 @@ describe('Test SearchBar for drinks', () => {
   it('Test Searching for name', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneDrinkMock),
+      json: jest.fn().mockResolvedValue(drinks)
+        .mockResolvedValueOnce(drinks)
+        .mockResolvedValueOnce(drinkCategories),
     });
-
     renderPath('/drinks');
     const searchButton = screen.getByTestId(searchBtnId);
 
@@ -168,7 +182,9 @@ describe('Test SearchBar for drinks', () => {
   it('Test Searching for firstletter', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
-      json: jest.fn().mockResolvedValue(oneDrinkMock),
+      json: jest.fn().mockResolvedValue(drinks)
+        .mockResolvedValueOnce(drinks)
+        .mockResolvedValueOnce(drinkCategories),
     });
 
     renderPath('/drinks');
