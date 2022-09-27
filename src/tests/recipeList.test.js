@@ -4,7 +4,10 @@ import { act } from 'react-dom/test-utils';
 import renderPath from './helpers/RenderWithRouter';
 import oneMealMock from './mocks/oneMealMock';
 
+const localStorage = require('../services/localStorage');
+
 const meals = require('../../cypress/mocks/meals');
+const oneDrinkId15997 = require('../../cypress/mocks/oneDrinkId15997');
 const drinks = require('../../cypress/mocks/drinks');
 const mealCategories = require('../../cypress/mocks/mealCategories');
 const drinkCategories = require('../../cypress/mocks/drinkCategories');
@@ -173,6 +176,41 @@ describe('Tests Clicking recipe card', () => {
     userEvent.click(card);
 
     expect(history.location.pathname).toBe('/meals/52978');
+  });
+});
+
+describe('Test Recipe Details page', () => {
+  it('tests clicking on Favorite button', async () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValue(meals).mockResolvedValueOnce(oneDrinkId15997),
+    });
+
+    const favs = [
+      {
+        id: '15997',
+        type: 'drink',
+        nationality: '',
+        category: 'Ordinary Drink',
+        alcoholicOrNot: 'Optional alcohol',
+        name: 'GG',
+        image: 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg',
+      },
+    ];
+
+    renderPath('/drinks/15997');
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(2));
+
+    userEvent.click(screen.getByTestId('favorite-btn'));
+
+    jest.spyOn(localStorage, 'getSavedByKey');
+
+    expect(localStorage.getSavedByKey('favoriteRecipes')).toEqual(favs);
+
+    userEvent.click(screen.getByTestId('favorite-btn'));
+
+    expect(localStorage.getSavedByKey('favoriteRecipes')).toEqual([]);
   });
 });
 

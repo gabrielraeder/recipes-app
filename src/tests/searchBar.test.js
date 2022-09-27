@@ -37,7 +37,7 @@ describe(testForMeals, () => {
         .mockResolvedValueOnce(oneMealMock),
     });
 
-    localStorage.getSavedByKey = jest.fn().mockReturnValueOnce(doneRecipesMock);
+    localStorage.getSavedByKey = jest.fn().mockReturnValue(doneRecipesMock);
 
     const { history } = renderPath('/meals');
     const searchButton = screen.getByTestId(searchBtnId);
@@ -59,8 +59,8 @@ describe(testForMeals, () => {
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(history.location.pathname).toBe('/meals/52771');
-    const button = screen.getByTestId('start-recipe-btn');
-    expect(button).toBeInTheDocument();
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    expect(screen.getByTestId('start-recipe-btn')).toBeDefined();
   });
 });
 
@@ -135,7 +135,7 @@ describe('Test SearchBar for drinks', () => {
         .mockResolvedValueOnce(oneDrinkMock)
         .mockResolvedValueOnce(oneDrinkMock),
     });
-    localStorage.getSavedByKey = jest.fn().mockReturnValueOnce(doneRecipesMock);
+    localStorage.getSavedByKey = jest.fn().mockReturnValue(doneRecipesMock);
     const { history } = renderPath('/drinks');
     const searchButton = screen.getByTestId(searchBtnId);
     userEvent.click(searchButton);
