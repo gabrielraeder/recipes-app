@@ -2,7 +2,7 @@
 const readSpecificKey = (key) => JSON.parse(localStorage.getItem(key));
 
 // salva itens no localStorage
-const saveToLocalStorage = (key, value) => localStorage
+export const saveToLocalStorage = (key, value) => localStorage
   .setItem(key, JSON.stringify(value));
 
 // recebe produto e atualiza o localStorage com ARRAY
