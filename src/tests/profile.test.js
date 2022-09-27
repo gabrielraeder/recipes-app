@@ -6,6 +6,8 @@ const localStorage = require('../services/localStorage');
 
 const path = '/profile';
 
+const email = 'eu@trybe.com';
+
 afterEach(() => {
   jest.clearAllMocks();
 });
@@ -13,10 +15,10 @@ afterEach(() => {
 describe('Profile page', () => {
   it('checks for email and clicks done recipes', () => {
     jest.spyOn(localStorage, 'saveToLocalStorage');
-    localStorage.saveToLocalStorage('user', { email: 'eu@trybe.com' });
+    localStorage.saveToLocalStorage('user', { email: email });
 
     const { history } = renderPath(path);
-    expect(screen.getByText('eu@trybe.com')).toBeInTheDocument();
+    expect(screen.getByText(email)).toBeInTheDocument();
 
     userEvent.click(screen.getByTestId('profile-done-btn'));
 
@@ -27,10 +29,10 @@ describe('Profile page', () => {
 describe('Profile page', () => {
   it('clicks favorite recipes', () => {
     jest.spyOn(localStorage, 'saveToLocalStorage');
-    localStorage.saveToLocalStorage('user', { email: 'eu@trybe.com' });
+    localStorage.saveToLocalStorage('user', { email });
 
     const { history } = renderPath(path);
-    expect(screen.getByText('eu@trybe.com')).toBeInTheDocument();
+    expect(screen.getByText(email)).toBeInTheDocument();
 
     userEvent.click(screen.getByTestId('profile-favorite-btn'));
 
