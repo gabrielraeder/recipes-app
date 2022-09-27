@@ -7,9 +7,7 @@ import '../Styles/RecipeDetails.css';
 import Context from '../context/Context';
 import { getSavedByKey, removeFromFavorites,
   getSavedInProgress, AddToDoneOrFavorites } from '../services/localStorage';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
 
 const copy = require('clipboard-copy');
 
@@ -81,7 +79,13 @@ export default function RecipeDetails({ match }) {
 
   return (
     <div className="recipePage">
-      <div>
+      <FavoriteAndShareButtons
+        isFavorite={ isFavorite }
+        removeRecipeFromFavorites={ removeRecipeFromFavorites }
+        addRecipeToFavorites={ addRecipeToFavorites }
+        copyToClipBoard={ copyToClipBoard }
+      />
+      {/* <div>
         { isFavorite ? (
           <input
             type="image"
@@ -109,7 +113,7 @@ export default function RecipeDetails({ match }) {
           src={ shareIcon }
           onClick={ copyToClipBoard }
         />
-      </div>
+      </div> */}
       <div>
         { isLinkCopied && <p>Link copied!</p> }
       </div>
