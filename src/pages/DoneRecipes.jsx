@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import '../Styles/DoneRecipes.css';
 import { getSavedByKey } from '../services/localStorage';
 import shareIcon from '../images/shareIcon.svg';
+import DoneDrinkCard from '../components/DoneDrinkCard';
+import DoneMealCard from '../components/DoneMealCard';
+import doneMock from '../tests/mocks/doneRecipesMock';
 
 export default function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState([]);
+  const [doneRecipes, setDoneRecipes] = useState(doneMock);
   const [doneMeals, setDoneMeals] = useState([]);
   const [doneDrinks, setDoneDrinks] = useState([]);
   const [exhibit, setExhibit] = useState([]);
 
+  // MOCK
   useEffect(() => {
-    const done = getSavedByKey('doneRecipes');
-    setDoneRecipes(done);
-    setExhibit(done);
-    const meals = done.filter((recipe) => recipe.type === 'meal');
+    setDoneRecipes(doneMock);
+    setExhibit(doneMock);
+    const meals = doneMock.filter((recipe) => recipe.type === 'meal');
     setDoneMeals(meals);
-    const drinks = done.filter((recipe) => recipe.type === 'drinks');
+    const drinks = doneMock.filter((recipe) => recipe.type === 'drink');
     setDoneDrinks(drinks);
   }, []);
 
+  // useEffect(() => {
+  //   const done = getSavedByKey('doneRecipes');
+  //   setDoneRecipes(done);
+  //   setExhibit(done);
+  //   const meals = done.filter((recipe) => recipe.type === 'meal');
+  //   setDoneMeals(meals);
+  //   const drinks = done.filter((recipe) => recipe.type === 'drinks');
+  //   setDoneDrinks(drinks);
+  // }, []);
+
   const handleClickFilter = ({ target: { value } }) => {
-    setExhibit(value);
+    if (value === 'meal') setExhibit(doneMeals);
+    else if (value === 'drink') setExhibit(doneDrinks);
+    else setExhibit(doneRecipes);
   };
 
   return (
@@ -32,7 +46,7 @@ export default function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-all-btn"
-          value={ doneRecipes }
+          value="All"
           onClick={ handleClickFilter }
         >
           All
@@ -40,7 +54,7 @@ export default function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-meal-btn"
-          value={ doneMeals }
+          value="meal"
           onClick={ handleClickFilter }
         >
           Meals
@@ -48,75 +62,45 @@ export default function DoneRecipes() {
         <button
           type="button"
           data-testid="filter-by-drink-btn"
-          value={ doneDrinks }
+          value="drink"
           onClick={ handleClickFilter }
         >
           Drinks
         </button>
         <ul>
-          {exhibit.map((item, index) => (
-            <li key={ item.id }>
-              <Link to={ `/${item.type}s/${item.id}` }>
-                <img
-                  src={ item.image }
-                  alt={ item.name }
-                  className="recipeIMG"
-                  data-testid={ `${index}-horizontal-image` }
+          {exhibit.map((item, index) => {
+            if (item?.type === 'meal') {
+              return (
+                <div key={ index }>
+                  <DoneMealCard item={ item } index={ index } />
+                  <input
+                    type="image"
+                    alt="shareIcon"
+                    className="shareIcon"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    src={ shareIcon }
+                    // onClick={ copyToClipBoard }
+                  />
+                </div>
+              );
+            }
+            return (
+              <div key={ index }>
+                <DoneDrinkCard item={ item } index={ index } />
+                <input
+                  type="image"
+                  alt="shareIcon"
+                  className="shareIcon"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  src={ shareIcon }
+                  // onClick={ copyToClipBoard }
                 />
-                <h4
-                  className="recipeName"
-                  data-testid={ `${index}-horizontal-name` }
-                >
-                  { item.name }
-                </h4>
-                <h5
-                  data-testid={ `${index}-horizontal-top-text` }
-                >
-                  { item.category }
-                </h5>
-                <p data-testid={ `${index}-horizontal-done-date` }>
-                  {item.doneDate }
-                </p>
-              </Link>
-              <input
-                type="image"
-                alt="shareIcon"
-                className="shareIcon"
-                data-testid={ `${index}-horizontal-share-btn` }
-                src={ shareIcon }
-                // onClick={ copyToClipBoard }
-              />
-              { item.tags.length > 0 && (
-                <ul>
-                  {item.tags.map((tag, ind) => (
-                    <li key={ ind } data-testid={ `${index}-${tag}-horizontal-tag` }>
-                      { tag }
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+              </div>
+            );
+          })}
         </ul>
 
       </div>
     </div>
   );
 }
-
-// <Link to={ `/${title.toLowerCase()}/${id}` }>
-//       <li className="recipeCard" data-testid={ titleID }>
-//         <img
-//           src={ recipe[thumb] }
-//           alt={ recipe[string] }
-//           className="recipeIMG"
-//           data-testid={ `${index}-card-img` }
-//         />
-//         <h4
-//           className="recipeName"
-//           data-testid={ nameID }
-//         >
-//           { recipe[string] }
-//         </h4>
-//       </li>
-//     </Link>
