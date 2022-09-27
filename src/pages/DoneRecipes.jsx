@@ -14,24 +14,24 @@ export default function DoneRecipes() {
   const [exhibit, setExhibit] = useState([]);
 
   // MOCK
-  useEffect(() => {
-    setDoneRecipes(doneMock);
-    setExhibit(doneMock);
-    const meals = doneMock.filter((recipe) => recipe.type === 'meal');
-    setDoneMeals(meals);
-    const drinks = doneMock.filter((recipe) => recipe.type === 'drink');
-    setDoneDrinks(drinks);
-  }, []);
-
   // useEffect(() => {
-  //   const done = getSavedByKey('doneRecipes');
-  //   setDoneRecipes(done);
-  //   setExhibit(done);
-  //   const meals = done.filter((recipe) => recipe.type === 'meal');
+  //   setDoneRecipes(doneMock);
+  //   setExhibit(doneMock);
+  //   const meals = doneMock.filter((recipe) => recipe.type === 'meal');
   //   setDoneMeals(meals);
-  //   const drinks = done.filter((recipe) => recipe.type === 'drinks');
+  //   const drinks = doneMock.filter((recipe) => recipe.type === 'drink');
   //   setDoneDrinks(drinks);
   // }, []);
+
+  useEffect(() => {
+    const done = getSavedByKey('doneRecipes');
+    setDoneRecipes(done);
+    setExhibit(done);
+    const meals = done.filter((recipe) => recipe.type === 'meal');
+    setDoneMeals(meals);
+    const drinks = done.filter((recipe) => recipe.type === 'drinks');
+    setDoneDrinks(drinks);
+  }, []);
 
   const handleClickFilter = ({ target: { value } }) => {
     if (value === 'meal') setExhibit(doneMeals);
