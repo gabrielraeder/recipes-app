@@ -15,7 +15,7 @@ afterEach(() => {
 describe('Profile page', () => {
   it('checks for email and clicks done recipes', () => {
     jest.spyOn(localStorage, 'saveToLocalStorage');
-    localStorage.saveToLocalStorage('user', { email: email });
+    localStorage.saveToLocalStorage('user', { email });
 
     const { history } = renderPath(path);
     expect(screen.getByText(email)).toBeInTheDocument();
