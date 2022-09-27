@@ -23,7 +23,7 @@ export const addInProgressDrinks = (id, value) => {
   }
   const saved = readSpecificKey('inProgressRecipes');
   const toReturn = {
-    drinks: { ...saved.drinks, id: value },
+    drinks: { ...saved.drinks, [id]: value },
     meals: { ...saved.meals },
   };
   saveToLocalStorage('inProgressRecipes', toReturn);
@@ -39,7 +39,7 @@ export const addInProgressMeals = (id, value) => {
   const saved = readSpecificKey('inProgressRecipes');
   const toReturn = {
     drinks: { ...saved.drinks },
-    meals: { ...saved.meals, id: value },
+    meals: { ...saved.meals, [id]: value },
   };
   saveToLocalStorage('inProgressRecipes', toReturn);
 };
@@ -62,4 +62,10 @@ export const getSavedInProgress = () => {
   }
   const savedOnKey = readSpecificKey('inProgressRecipes');
   return savedOnKey;
+};
+
+export const removeFromFavorites = (key, id) => {
+  const saved = readSpecificKey(key);
+  const excludeThruID = saved.filter((item) => item.id !== id);
+  saveToLocalStorage(key, excludeThruID);
 };
