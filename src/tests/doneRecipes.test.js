@@ -33,6 +33,7 @@ describe('Done Recipes tests', () => {
 describe('Done recipes filters', () => {
   it('clicks on Meals filter', () => {
     localStorage.getSavedByKey = jest.fn().mockReturnValue(doneRecipes);
+    window.document.execCommand = jest.fn().mockImplementation(() => 'copied');
 
     renderPath(path);
     const drinkImage = screen.getByTestId('1-horizontal-image');
@@ -41,10 +42,14 @@ describe('Done recipes filters', () => {
     userEvent.click(screen.getByRole('button', { name: 'Meals' }));
 
     expect(drinkImage).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId('0-horizontal-share-btn'));
+    expect(screen.getByText('Link copied!')).toBeInTheDocument();
   });
 
   it('clicks on Drinks filter then on All filter', () => {
     localStorage.getSavedByKey = jest.fn().mockReturnValue(doneRecipes);
+    window.document.execCommand = jest.fn().mockImplementation(() => 'copied');
 
     renderPath(path);
     const mealName = screen.getByTestId('0-horizontal-name');
@@ -53,6 +58,9 @@ describe('Done recipes filters', () => {
     userEvent.click(screen.getByRole('button', { name: 'Drinks' }));
 
     expect(mealName).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId('0-horizontal-share-btn'));
+    expect(screen.getByText('Link copied!')).toBeInTheDocument();
 
     userEvent.click(screen.getByRole('button', { name: 'All' }));
 

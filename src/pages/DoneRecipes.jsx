@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import '../Styles/DoneRecipes.css';
 import { getSavedByKey } from '../services/localStorage';
-import shareIcon from '../images/shareIcon.svg';
 import DoneDrinkCard from '../components/DoneDrinkCard';
 import DoneMealCard from '../components/DoneMealCard';
 import doneMock from '../tests/mocks/doneRecipesMock';
@@ -13,23 +12,14 @@ export default function DoneRecipes() {
   const [doneDrinks, setDoneDrinks] = useState([]);
   const [exhibit, setExhibit] = useState([]);
 
-  // MOCK
-  // useEffect(() => {
-  //   setDoneRecipes(doneMock);
-  //   setExhibit(doneMock);
-  //   const meals = doneMock.filter((recipe) => recipe.type === 'meal');
-  //   setDoneMeals(meals);
-  //   const drinks = doneMock.filter((recipe) => recipe.type === 'drink');
-  //   setDoneDrinks(drinks);
-  // }, []);
-
   useEffect(() => {
+    // const done = [...doneMock]; // MOCK
     const done = getSavedByKey('doneRecipes');
     setDoneRecipes(done);
     setExhibit(done);
     const meals = done.filter((recipe) => recipe.type === 'meal');
     setDoneMeals(meals);
-    const drinks = done.filter((recipe) => recipe.type === 'drinks');
+    const drinks = done.filter((recipe) => recipe.type === 'drink');
     setDoneDrinks(drinks);
   }, []);
 
@@ -71,31 +61,11 @@ export default function DoneRecipes() {
           {exhibit.map((item, index) => {
             if (item?.type === 'meal') {
               return (
-                <div key={ index }>
-                  <DoneMealCard item={ item } index={ index } />
-                  <input
-                    type="image"
-                    alt="shareIcon"
-                    className="shareIcon"
-                    data-testid={ `${index}-horizontal-share-btn` }
-                    src={ shareIcon }
-                    // onClick={ copyToClipBoard }
-                  />
-                </div>
+                <DoneMealCard key={ index } item={ item } index={ index } />
               );
             }
             return (
-              <div key={ index }>
-                <DoneDrinkCard item={ item } index={ index } />
-                <input
-                  type="image"
-                  alt="shareIcon"
-                  className="shareIcon"
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  src={ shareIcon }
-                  // onClick={ copyToClipBoard }
-                />
-              </div>
+              <DoneDrinkCard key={ index } item={ item } index={ index } />
             );
           })}
         </ul>
