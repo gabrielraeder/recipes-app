@@ -5,7 +5,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-export default function DoneMealCard({ item, index }) {
+export default function FavoriteMealCard({ item, index }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   const copyToClipBoard = () => {
@@ -33,16 +33,6 @@ export default function DoneMealCard({ item, index }) {
         >
           { `${item.nationality} - ${item.category}` }
         </h5>
-        <p data-testid={ `${index}-horizontal-done-date` }>
-          {item.doneDate }
-        </p>
-        <ul>
-          {item.tags.slice(0, 2).map((tag, ind) => (
-            <li key={ ind } data-testid={ `${index}-${tag}-horizontal-tag` }>
-              { tag }
-            </li>
-          ))}
-        </ul>
       </Link>
       <input
         type="image"
@@ -57,7 +47,7 @@ export default function DoneMealCard({ item, index }) {
   );
 }
 
-DoneMealCard.propTypes = {
+FavoriteMealCard.propTypes = {
   item: PropTypes.shape().isRequired,
   index: PropTypes.number.isRequired,
 };

@@ -5,17 +5,17 @@ import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
-export default function DoneMealCard({ item, index }) {
+export default function FavoriteDrinkCard({ item, index }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
   const copyToClipBoard = () => {
-    copy(`http://localhost:3000/meals/${item.id}`);
+    copy(`http://localhost:3000/drinks/${item.id}`);
     setIsLinkCopied(true);
   };
 
   return (
     <div>
-      <Link to={ `/meals/${item.id}` }>
+      <Link to={ `/drinks/${item.id}` }>
         <img
           src={ item.image }
           alt={ item.name }
@@ -31,18 +31,8 @@ export default function DoneMealCard({ item, index }) {
         <h5
           data-testid={ `${index}-horizontal-top-text` }
         >
-          { `${item.nationality} - ${item.category}` }
+          { `${item.category} - ${item.alcoholicOrNot}` }
         </h5>
-        <p data-testid={ `${index}-horizontal-done-date` }>
-          {item.doneDate }
-        </p>
-        <ul>
-          {item.tags.slice(0, 2).map((tag, ind) => (
-            <li key={ ind } data-testid={ `${index}-${tag}-horizontal-tag` }>
-              { tag }
-            </li>
-          ))}
-        </ul>
       </Link>
       <input
         type="image"
@@ -57,7 +47,7 @@ export default function DoneMealCard({ item, index }) {
   );
 }
 
-DoneMealCard.propTypes = {
+FavoriteDrinkCard.propTypes = {
   item: PropTypes.shape().isRequired,
   index: PropTypes.number.isRequired,
 };

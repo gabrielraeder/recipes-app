@@ -5,6 +5,7 @@ import { getSavedByKey } from '../services/localStorage';
 import DoneDrinkCard from '../components/DoneDrinkCard';
 import DoneMealCard from '../components/DoneMealCard';
 import doneMock from '../tests/mocks/doneRecipesMock';
+import FilterButtons from '../components/FilterButtons';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState(doneMock);
@@ -33,7 +34,8 @@ export default function DoneRecipes() {
     <div>
       <Header title="Done Recipes" />
       <div className="donePageButtons">
-        <button
+        <FilterButtons handleClickFilter={ handleClickFilter } />
+        {/* <button
           type="button"
           data-testid="filter-by-all-btn"
           value="All"
@@ -56,7 +58,7 @@ export default function DoneRecipes() {
           onClick={ handleClickFilter }
         >
           Drinks
-        </button>
+        </button> */}
         <ul>
           {exhibit.map((item, index) => {
             if (item?.type === 'meal') {
