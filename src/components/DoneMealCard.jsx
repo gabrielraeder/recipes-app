@@ -8,6 +8,7 @@ const copy = require('clipboard-copy');
 export default function DoneMealCard({ item, index }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
 
+  // coloca no clipboard o link para acessar a página atual
   const copyToClipBoard = () => {
     copy(`http://localhost:3000/meals/${item.id}`);
     setIsLinkCopied(true);

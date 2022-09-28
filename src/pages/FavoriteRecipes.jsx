@@ -14,6 +14,10 @@ export default function Favorites() {
   const [exhibit, setExhibit] = useState([]);
   const [removedFavorite, setRemovedFavorite] = useState(false);
 
+  // função para recuperar favoriteRecipes do localStorage e colocar nos estados.
+  // favoriteRecipes recebe todas favoritas
+  // favMeals recebe comidas favoritas
+  // favDrinks recebe bebidas favoritas
   const recoverFavorites = () => {
     const favorites = getSavedByKey('favoriteRecipes');
     setFavoriteRecipes(favorites);
@@ -25,16 +29,19 @@ export default function Favorites() {
     setRemovedFavorite(false);
   };
 
+  // recupera favoritas acionando a função e acompanha a mudança do estado de remoção para atualizar a tela
   useEffect(() => {
     recoverFavorites();
   }, [removedFavorite]);
 
+  // ao clique em um filtro define quais receitas exibir
   const handleClickFilter = ({ target: { value } }) => {
     if (value === 'meal') setExhibit(favMeals);
     else if (value === 'drink') setExhibit(favDrinks);
     else setExhibit(favoriteRecipes);
   };
 
+  // remove receita de favoriteRecipes no localStorage
   const removeRecipeFromFavorites = ({ target: { value } }) => {
     removeFromFavorites('favoriteRecipes', value);
     setRemovedFavorite(true);

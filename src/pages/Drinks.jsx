@@ -9,6 +9,7 @@ import { fetchInitialItems, fetchCategories } from '../services/fetchAPI';
 export default function Drinks() {
   const { setSearchResponse, setCategories } = useContext(Context);
 
+  // fetch das receitas iniciais para exibir na tela
   useEffect(() => {
     const initialFetch = async () => {
       const response = await fetchInitialItems('Drinks');
@@ -17,6 +18,7 @@ export default function Drinks() {
     initialFetch();
   }, []);
 
+  // fetch das categorias para colocar os botões na tela
   useEffect(() => {
     const categoriesFetch = async () => {
       const { drinks } = await fetchCategories('Drinks');

@@ -7,11 +7,13 @@ import { getSavedByKey } from '../services/localStorage';
 export default function Profile() {
   const [showEmail, setShowEmail] = useState('');
 
+  // recupera o email do localStorage ao carregar componente
   useEffect(() => {
     const { email } = getSavedByKey('user');
     setShowEmail(email);
   }, []);
 
+  // limpa localStorage
   const logoutClear = () => {
     localStorage.clear();
   };

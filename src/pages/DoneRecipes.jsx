@@ -13,8 +13,11 @@ export default function DoneRecipes() {
   const [doneDrinks, setDoneDrinks] = useState([]);
   const [exhibit, setExhibit] = useState([]);
 
+  // função para recuperar favoriteRecipes do localStorage e colocar nos estados.
+  // doneRecipes recebe todas receitas completas
+  // doneMeals recebe comidas completas
+  // doneDrinks recebe bebidas completas
   useEffect(() => {
-    // const done = [...doneMock]; // MOCK
     const done = getSavedByKey('doneRecipes');
     setDoneRecipes(done);
     setExhibit(done);
@@ -24,6 +27,7 @@ export default function DoneRecipes() {
     setDoneDrinks(drinks);
   }, []);
 
+  // altera o conteúdo a ser exibido de acordo com o botão clicado
   const handleClickFilter = ({ target: { value } }) => {
     if (value === 'meal') setExhibit(doneMeals);
     else if (value === 'drink') setExhibit(doneDrinks);

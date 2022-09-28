@@ -8,9 +8,11 @@ export default function RecipeCard({ recipe, index, title, recipesOrRecomm }) {
   const string = `str${title.replace('s', '')}`;
   const id = recipe[`id${title.replace('s', '')}`];
 
+  // concatena o index com o resto do testId de acordo com qual pagina está renderizada.
   const titleID = recipesOrRecomm === 'recipes'
     ? `${index}-recipe-card` : `${index}-recommendation-card`;
 
+  // concatena o index com o resto do testId de acordo com qual pagina está renderizada.
   const nameID = recipesOrRecomm === 'recipes'
     ? `${index}-card-name` : `${index}-recommendation-title`;
 

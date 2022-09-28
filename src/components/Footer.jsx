@@ -10,6 +10,8 @@ export default function Footer({ title }) {
   const history = useHistory();
   const { setSearchResponse, setCategories } = useContext(Context);
 
+  // reseta os estados globais searchresponse e Categories para trocar para a pagina entre meals e drinks
+  // sem esse reset ocorre erro na aplicação
   const handleClick = (page) => {
     setSearchResponse({ meals: [], drinks: [] });
     setCategories([]);
