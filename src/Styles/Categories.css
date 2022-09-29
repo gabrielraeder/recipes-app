@@ -18,5 +18,11 @@
   margin: 3px;
   padding-left: 10px;
   padding-right: 10px;
-  transition: 0.3s;
+  transition: 1s;
+}
+
+.categoryBtn:active {
+  color: white;
+  background-color: blueviolet;
+  transition: 0.5s;
 }
