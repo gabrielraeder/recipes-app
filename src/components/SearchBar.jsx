@@ -18,12 +18,12 @@ export default function SearchBar({ title }) {
 
   const myRecipesRecover = () => {
     const myRecipes = getSavedByKey('myRecipes');
-    const usersSearch = myRecipes.some((i) => i.user.email === textInput);
+    const usersSearch = myRecipes.some((i) => i.user.email.includes(textInput));
     if (myRecipes.length === 0 || !usersSearch) {
       global.alert('Sorry, we haven\'t found any recipes for these filters.');
       return null;
     }
-    const user = myRecipes.filter((i) => i.user.email === textInput);
+    const user = myRecipes.filter((i) => i.user.email.includes(textInput));
     const mapped = user.map((i) => {
       if (i.type === 'meal') {
         return ({

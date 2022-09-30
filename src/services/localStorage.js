@@ -82,7 +82,7 @@ export const addMyNewRecipe = (value) => {
   const myrecipes = readSpecificKey('myRecipes');
   let id = 1;
   if (myrecipes.length > 0) {
-    id = myrecipes[myrecipes.length - 1].id + 1;
+    id = +myrecipes[myrecipes.length - 1].id.match(/(\d+)/)[0] + 1;
   }
   const newObj = { ...value, id: `recipe${id}`, user };
   saveToLocalStorage('myRecipes', [...myrecipes, newObj]);
