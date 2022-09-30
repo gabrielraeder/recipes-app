@@ -15,7 +15,7 @@ beforeEach(() => {
 });
 
 describe('Test Recipe Details page', () => {
-  it('tests clicking on share button', async () => {
+  it.only('tests clicking on share button', async () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValue(drinks).mockResolvedValueOnce(OneMeal),

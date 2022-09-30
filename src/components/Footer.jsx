@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import mealIcon from '../images/mealIcon.svg';
 import drinkIcon from '../images/drinkIcon.svg';
+import sinaldemais from '../images/sinaldemais.png';
 import '../Styles/Footer.css';
 
 export default function Footer({ title }) {
@@ -27,6 +28,14 @@ export default function Footer({ title }) {
         onClick={ () => handleClick('drinks') }
         data-testid="drinks-bottom-btn"
         disabled={ title === 'Drinks' }
+      />
+
+      <input
+        type="image"
+        className="plusIcon"
+        alt="icone de adição"
+        src={ sinaldemais }
+        onClick={ () => history.push('/add-recipe') }
       />
 
       <input
