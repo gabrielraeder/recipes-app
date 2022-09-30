@@ -66,16 +66,22 @@ export default function MealDetail({ id }) {
   }, [recipe]);
 
   return (
-    <div>
-      <img
-        className="detailsImage"
-        data-testid="recipe-photo"
-        src={ recipe?.strMealThumb }
-        alt={ recipe?.strMeal }
-      />
-      <h3 data-testid="recipe-title">{ recipe?.strMeal }</h3>
-      <h5 data-testid="recipe-category">{ recipe?.strCategory }</h5>
-      <ul>
+    <div className="detailsContainer">
+      <div className="container">
+        <img
+          className="detailsImage"
+          data-testid="recipe-photo"
+          src={ recipe?.strMealThumb }
+          alt={ recipe?.strMeal }
+        />
+        <div className="containerText">
+          <h3 data-testid="recipe-title">{ recipe?.strMeal }</h3>
+          <p data-testid="recipe-category">{ recipe?.strCategory }</p>
+
+        </div>
+      </div>
+      <ul className="ingredientsContainer">
+        <h4>Ingredients:</h4>
         {ingredients.map((ing, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -85,10 +91,11 @@ export default function MealDetail({ id }) {
           </li>
         ))}
       </ul>
-      <fieldset>
+      <div className="instructionsContainer">
+        <h4>Instructions:</h4>
         <p data-testid="instructions">{ recipe?.strInstructions }</p>
-      </fieldset>
-      <div>
+      </div>
+      <div className="youtubeContainer">
         <iframe
           title="YTVideo"
           width="280"
@@ -100,11 +107,13 @@ export default function MealDetail({ id }) {
         </iframe>
 
       </div>
-      {
-        recommendation.length > 0 && (
-          <Recommendations recommendations={ recommendation } title="Drinks" />
-        )
-      }
+      <div className="carouselContainer">
+        {
+          recommendation.length > 0 && (
+            <Recommendations recommendations={ recommendation } title="Drinks" />
+          )
+        }
+      </div>
     </div>
   );
 }

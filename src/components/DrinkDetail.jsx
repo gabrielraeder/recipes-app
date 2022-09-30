@@ -58,7 +58,6 @@ export default function DrinkDetail({ id }) {
       const LAST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient15');
       const FIRST_MEASURE = Object.keys(recipe).indexOf('strMeasure1');
       const LAST_MEASURE = Object.keys(recipe).indexOf('strMeasure15');
-      console.log(Object.values(recipe));
       const ingredValues = Object.values(recipe).slice(FIRST_INGREDIENT, LAST_INGREDIENT);
       const measuresValues = Object.values(recipe).slice(FIRST_MEASURE, LAST_MEASURE);
       setIngredients(ingredValues.filter((i) => i !== null));
@@ -69,20 +68,25 @@ export default function DrinkDetail({ id }) {
   const alcoholic = recipe?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : '';
 
   return (
-    <div>
-      <img
-        className="detailsImage"
-        data-testid="recipe-photo"
-        src={ recipe?.strDrinkThumb }
-        alt={ recipe?.strDrink }
-      />
-      <h3 data-testid="recipe-title">{ recipe?.strDrink }</h3>
-      <h5 data-testid="recipe-category">
-        {
-          `${recipe?.strCategory} ${alcoholic}`
-        }
-      </h5>
-      <ul>
+    <div className="detailsContainer">
+      <div className="container">
+        <img
+          className="detailsImage"
+          data-testid="recipe-photo"
+          src={ recipe?.strDrinkThumb }
+          alt={ recipe?.strDrink }
+        />
+        <div className="containerText">
+          <h3 data-testid="recipe-title">{ recipe?.strDrink }</h3>
+          <p data-testid="recipe-category">
+            {
+              `${recipe?.strCategory} ${alcoholic}`
+            }
+          </p>
+        </div>
+      </div>
+      <ul className="ingredientsContainer">
+        <h4>Ingredients:</h4>
         {ingredients.map((ing, index) => (
           <li
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -92,14 +96,17 @@ export default function DrinkDetail({ id }) {
           </li>
         ))}
       </ul>
-      <fieldset>
+      <div className="instructionsContainer">
+        <h4>Instructions:</h4>
         <p data-testid="instructions">{ recipe?.strInstructions }</p>
-      </fieldset>
-      {
-        recommendation.length > 0 && (
-          <Recommendations recommendations={ recommendation } title="Meals" />
-        )
-      }
+      </div>
+      <div className="carouselContainer">
+        {
+          recommendation.length > 0 && (
+            <Recommendations recommendations={ recommendation } title="Meals" />
+          )
+        }
+      </div>
     </div>
   );
 }

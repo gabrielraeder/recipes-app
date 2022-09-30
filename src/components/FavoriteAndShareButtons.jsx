@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import '../Styles/HeartAndShareHeader.css';
+import iconeRecipesapp from '../images/iconeRecipesapp.png';
+import logoRecipesapp from '../images/logoRecipesapp.png';
 
 export default function FavoriteAndShareButtons({
   isFavorite,
@@ -11,34 +14,50 @@ export default function FavoriteAndShareButtons({
   removeRecipeFromFavorites,
 }) {
   return (
-    <div>
-      { isFavorite ? (
+    <div className="HeartAndShareHeader">
+      <div>
         <input
           type="image"
-          alt="blackHeart"
-          className="blackHeart"
-          data-testid="favorite-btn"
-          src={ blackHeartIcon }
-          onClick={ removeRecipeFromFavorites }
+          alt="iconeRecipesapp"
+          className="FavPageIcon"
+          src={ iconeRecipesapp }
         />
-      ) : (
         <input
           type="image"
-          alt="whiteHeartIcon"
-          className="whiteHeartIcon"
-          data-testid="favorite-btn"
-          src={ whiteHeartIcon }
-          onClick={ addRecipeToFavorites }
+          alt="logoRecipesapp"
+          className="favLogo"
+          src={ logoRecipesapp }
         />
-      ) }
-      <input
-        type="image"
-        alt="shareIcon"
-        className="shareIcon"
-        data-testid="share-btn"
-        src={ shareIcon }
-        onClick={ copyToClipBoard }
-      />
+      </div>
+      <div>
+        { isFavorite ? (
+          <input
+            type="image"
+            alt="blackHeart"
+            className="HeartIcon"
+            data-testid="favorite-btn"
+            src={ blackHeartIcon }
+            onClick={ removeRecipeFromFavorites }
+          />
+        ) : (
+          <input
+            type="image"
+            alt="whiteHeartIcon"
+            className="HeartIcon"
+            data-testid="favorite-btn"
+            src={ whiteHeartIcon }
+            onClick={ addRecipeToFavorites }
+          />
+        ) }
+        <input
+          type="image"
+          alt="shareIcon"
+          className="shareIcon"
+          data-testid="share-btn"
+          src={ shareIcon }
+          onClick={ copyToClipBoard }
+        />
+      </div>
     </div>
   );
 }
