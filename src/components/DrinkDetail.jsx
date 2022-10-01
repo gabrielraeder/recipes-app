@@ -44,8 +44,8 @@ export default function DrinkDetail({ id }) {
     console.log(Object.values(recipe));
     const ingredValues = Object.values(recipe).slice(FIRST_INGREDIENT, LAST_INGREDIENT);
     const measuresValues = Object.values(recipe).slice(FIRST_MEASURE, LAST_MEASURE);
-    setIngredients(ingredValues.filter((i) => i !== null));
-    setMeasures(measuresValues.filter((m) => m !== null));
+    setIngredients(ingredValues.filter((i) => i !== null && i !== ''));
+    setMeasures(measuresValues.filter((m) => m !== null && m !== ''));
   }, [recipe]);
 
   const alcoholic = recipe?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : '';

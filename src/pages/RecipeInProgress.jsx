@@ -5,15 +5,30 @@ import DrinkInProgress from '../components/InProgress/DrinkInProgress';
 import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
 import { getSavedByKey, removeFromFavorites,
   AddToDoneOrFavorites } from '../services/localStorage';
-import Context from '../context/Context';
+// import Context from '../context/Context';
 import '../Styles/InProgress.css';
+// import oneMealMock from '../tests/mocks/oneMealMock';
+import { fetchByID } from '../services/fetchAPI';
 
 const copy = require('clipboard-copy');
 
 export default function RecipeInProgress({ match }) {
-  const { recipeInProgress } = useContext(Context);
-
+  // const { recipeInProgress } = useContext(Context);
+  const [recipe, setRecipe] = useState([]);
+  const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  useEffect(() => {
+    const title = match.url.includes('meals') ? 'Meals' : 'Drinks';
+    const { params: { id } } = match;
+    const idFetch = async () => {
+      const data = await fetchByID(id, title);
+      if (title === 'Meals') setRecipe(data.meals[0]);
+      else setRecipe(data.drinks[0]);
+    };
+    idFetch();
+    // setRecipe(oneMealMock.meals[0]);
+  }, []);
 
   // recupera favoriteRecipes para checar se a receita atual está favoritada
   useEffect(() => {
@@ -26,13 +41,13 @@ export default function RecipeInProgress({ match }) {
   // monta o objeto desta receita e o adiciona no localStorage junto as outras favoritas
   const addRecipeToFavorites = () => {
     const favRecipeToAdd = {
-      id: recipeInProgress?.idMeal || recipeInProgress?.idDrink,
+      id: recipe?.idMeal || recipe?.idDrink,
       type: match.url.includes('meals') ? 'meal' : 'drink',
-      nationality: recipeInProgress?.strArea || '',
-      category: recipeInProgress?.strCategory,
-      alcoholicOrNot: recipeInProgress?.strAlcoholic || '',
-      name: recipeInProgress?.strMeal || recipeInProgress?.strDrink,
-      image: recipeInProgress?.strMealThumb || recipeInProgress?.strDrinkThumb,
+      nationality: recipe?.strArea || '',
+      category: recipe?.strCategory,
+      alcoholicOrNot: recipe?.strAlcoholic || '',
+      name: recipe?.strMeal || recipe?.strDrink,
+      image: recipe?.strMealThumb || recipe?.strDrinkThumb,
     };
     AddToDoneOrFavorites('favoriteRecipes', favRecipeToAdd);
     setIsFavorite(true);
@@ -53,10 +68,11 @@ export default function RecipeInProgress({ match }) {
 
   // define qual componente exibir baseado no URL da pagina (/meals/:id ou /drinks/:id )
   const mealOrDrink = () => {
+    // const { params: { id } } = match;
     if (match.url.includes('meals')) {
-      return (<MealInProgress />);
+      return (<MealInProgress recipe={ recipe } />);
     }
-    return (<DrinkInProgress />);
+    return (<DrinkInProgress recipe={ recipe } />);
   };
 
   return (
@@ -67,6 +83,9 @@ export default function RecipeInProgress({ match }) {
         addRecipeToFavorites={ addRecipeToFavorites }
         copyToClipBoard={ copyToClipBoard }
       />
+      <div>
+        { isLinkCopied && <p>Link copied!</p> }
+      </div>
       {mealOrDrink()}
     </div>
   );
