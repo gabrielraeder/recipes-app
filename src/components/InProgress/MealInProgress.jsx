@@ -9,7 +9,7 @@ export default function MealInProgress() {
   const [recipe, setRecipe] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
-  const [checks, setChecks] = useState([]);
+  const [checks, setChecks] = useState([false]);
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [storedInProgress, setStoredInProgress] = useState({ meals: {}, drinks: {} });
 
@@ -33,16 +33,17 @@ export default function MealInProgress() {
   useEffect(() => {
     if (checks.some((check) => check === false)) {
       addInProgressMeals(recipe.idMeal, checks);
-    } else {
+    } else if (checks.every((check) => check === true)) {
       removeFromInProgress('meals', recipe.idMeal);
       const obj = doneRecipeObj();
       AddToDoneOrFavorites('doneRecipes', obj);
+      setIsAllChecked(true);
     }
-    setIsAllChecked(checks.every((check) => check === true));
   }, [checks]);
 
   // apartir da receita, busca e filtra somente os ingredientes e medidas existentes e coloca em novos estados
   useEffect(() => {
+    setIsAllChecked(false);
     const FIRST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient1');
     const LAST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient20');
     const FIRST_MEASURE = Object.keys(recipe).indexOf('strMeasure1');
