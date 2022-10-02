@@ -10,6 +10,7 @@ const OneMeal = require('../../cypress/mocks/oneMeal');
 const pathInProgressMeal = '/meals/52771/in-progress';
 const pathInProgressDrink = '/drinks/178319/in-progress';
 const pathdoneRecipes = '/done-recipes';
+const favButton = 'favorite-btn';
 
 beforeEach(() => {
   jest.resetAllMocks();
@@ -191,7 +192,7 @@ describe('Test Recipe inProgress page Favorite button clicks', () => {
     const { history } = renderPath(pathInProgressMeal);
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(favButton));
 
     expect(screen.getByRole('button', { name: /blackheart/i })).toBeInTheDocument();
 
@@ -201,7 +202,7 @@ describe('Test Recipe inProgress page Favorite button clicks', () => {
     const blackHeart = screen.getByRole('button', { name: /blackheart/i });
     expect(blackHeart).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(favButton));
     expect(blackHeart).toHaveProperty('src', 'http://localhost/meals/52771/whiteHeartIcon.svg');
   });
 
@@ -214,7 +215,7 @@ describe('Test Recipe inProgress page Favorite button clicks', () => {
     const { history } = renderPath(pathInProgressDrink);
 
     await waitFor(() => expect(global.fetch).toHaveBeenCalledTimes(1));
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(favButton));
 
     expect(screen.getByRole('button', { name: /blackheart/i })).toBeInTheDocument();
 
@@ -224,7 +225,7 @@ describe('Test Recipe inProgress page Favorite button clicks', () => {
     const blackHeart = screen.getByRole('button', { name: /blackheart/i });
     expect(blackHeart).toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(favButton));
     expect(blackHeart).toHaveProperty('src', 'http://localhost/drinks/178319/whiteHeartIcon.svg');
   });
 });
