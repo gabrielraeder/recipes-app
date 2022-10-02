@@ -7,7 +7,7 @@ const drinkMock = {
       strDrinkES: null,
       strDrinkDE: null,
       strDrinkFR: null,
-      strTags: null,
+      strTags: 'IBA, ContemporaryClassic',
       strVideo: null,
       strCategory: 'Cocktail',
       strIBA: null,

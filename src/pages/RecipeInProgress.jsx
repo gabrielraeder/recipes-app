@@ -24,7 +24,6 @@ export default function RecipeInProgress({ match }) {
       else setRecipe(data.drinks[0]);
     };
     idFetch();
-    // setRecipe(oneMealMock.meals[0]);
   }, []);
 
   // recupera favoriteRecipes para checar se a receita atual está favoritada
@@ -67,7 +66,6 @@ export default function RecipeInProgress({ match }) {
 
   // define qual componente exibir baseado no URL da pagina (/meals/:id ou /drinks/:id )
   const mealOrDrink = () => {
-    // const { params: { id } } = match;
     if (match.url.includes('meals')) {
       return (<MealInProgress recipe={ recipe } />);
     }
