@@ -9,11 +9,6 @@ export default function MealInProgress({ recipe }) {
   const [measures, setMeasures] = useState([]);
   const [checks, setChecks] = useState([false]);
   const [isAllChecked, setIsAllChecked] = useState(false);
-  const [storedInProgress, setStoredInProgress] = useState({ meals: {}, drinks: {} });
-
-  useEffect(() => {
-    setStoredInProgress(getSavedInProgress());
-  }, []);
 
   useEffect(() => {
     setIsAllChecked(checks.every((check) => check === true));

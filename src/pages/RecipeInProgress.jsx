@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MealInProgress from '../components/InProgress/MealInProgress';
 import DrinkInProgress from '../components/InProgress/DrinkInProgress';
 import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
 import { getSavedByKey, removeFromFavorites,
   AddToDoneOrFavorites } from '../services/localStorage';
-// import Context from '../context/Context';
 import '../Styles/InProgress.css';
-// import oneMealMock from '../tests/mocks/oneMealMock';
 import { fetchByID } from '../services/fetchAPI';
 
 const copy = require('clipboard-copy');
 
 export default function RecipeInProgress({ match }) {
-  // const { recipeInProgress } = useContext(Context);
   const [recipe, setRecipe] = useState([]);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -62,7 +59,9 @@ export default function RecipeInProgress({ match }) {
 
   // coloca no clipboard o link para acessar a página atual
   const copyToClipBoard = () => {
-    copy(`http://localhost:3000${match.url}`);
+    const string = match.url.split('/');
+    string.pop();
+    copy(`http://localhost:3000${string.join('/')}`);
     setIsLinkCopied(true);
   };
 
