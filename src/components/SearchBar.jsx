@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import { fetchSearchBar } from '../services/fetchAPI';
-import '../Styles/SearchBar.css';
+// import '../Styles/SearchBar.css';
 
 export default function SearchBar({ title }) {
   const [textInput, setTextInput] = useState('');
