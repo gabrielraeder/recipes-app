@@ -7,9 +7,7 @@ import '../Styles/RecipeDetails.css';
 import Context from '../context/Context';
 import { getSavedByKey, removeFromFavorites,
   getSavedInProgress, AddToDoneOrFavorites } from '../services/localStorage';
-import shareIcon from '../images/shareIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import FavoriteAndShareButtons from '../components/FavoriteAndShareButtons';
 
 const copy = require('clipboard-copy');
 
@@ -21,12 +19,14 @@ export default function RecipeDetails({ match }) {
 
   const { recipeInProgress } = useContext(Context);
 
+  // recupera doneRecipes para checar se a receita atual está completa
   useEffect(() => {
     const { params: { id } } = match;
     const doneRecipes = getSavedByKey('doneRecipes');
     setIsDone(doneRecipes?.some((recipe) => recipe.id === id));
   }, []);
 
+  // recupera favoriteRecipes para checar se a receita atual está favoritada
   useEffect(() => {
     const { params: { id } } = match;
     const favorites = getSavedByKey('favoriteRecipes');
@@ -34,6 +34,7 @@ export default function RecipeDetails({ match }) {
     setIsFavorite(isFav);
   }, []);
 
+  // recupera inProgressRecipes para checar se a receita atual está em progresso
   useEffect(() => {
     const { params: { id } } = match;
     const inProgress = getSavedInProgress();
@@ -54,11 +55,13 @@ export default function RecipeDetails({ match }) {
     return (<DrinkDetail id={ id } />);
   };
 
+  // coloca no clipboard o link para acessar a página atual
   const copyToClipBoard = () => {
     copy(`http://localhost:3000${match.url}`);
     setIsLinkCopied(true);
   };
 
+  // monta o objeto desta receita e o adiciona no localStorage junto as outras favoritas
   const addRecipeToFavorites = () => {
     const favRecipeToAdd = {
       id: recipeInProgress?.idMeal || recipeInProgress?.idDrink,
@@ -73,6 +76,7 @@ export default function RecipeDetails({ match }) {
     setIsFavorite(true);
   };
 
+  // remove a receita atual do localStorage chave favoriteRecipes
   const removeRecipeFromFavorites = () => {
     const { params: { id } } = match;
     removeFromFavorites('favoriteRecipes', id);
@@ -81,35 +85,12 @@ export default function RecipeDetails({ match }) {
 
   return (
     <div className="recipePage">
-      <div>
-        { isFavorite ? (
-          <input
-            type="image"
-            alt="blackHeart"
-            className="blackHeart"
-            data-testid="favorite-btn"
-            src={ blackHeartIcon }
-            onClick={ removeRecipeFromFavorites }
-          />
-        ) : (
-          <input
-            type="image"
-            alt="whiteHeartIcon"
-            className="whiteHeartIcon"
-            data-testid="favorite-btn"
-            src={ whiteHeartIcon }
-            onClick={ addRecipeToFavorites }
-          />
-        ) }
-        <input
-          type="image"
-          alt="shareIcon"
-          className="shareIcon"
-          data-testid="share-btn"
-          src={ shareIcon }
-          onClick={ copyToClipBoard }
-        />
-      </div>
+      <FavoriteAndShareButtons
+        isFavorite={ isFavorite }
+        removeRecipeFromFavorites={ removeRecipeFromFavorites }
+        addRecipeToFavorites={ addRecipeToFavorites }
+        copyToClipBoard={ copyToClipBoard }
+      />
       <div>
         { isLinkCopied && <p>Link copied!</p> }
       </div>

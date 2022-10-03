@@ -21,6 +21,7 @@ export default function MealDetail({ id }) {
     idFetch();
   }, []);
 
+  // fetch para setar o estado das receitas recomendadas
   useEffect(() => {
     const RecommendationDrinksFetch = async () => {
       const { drinks } = await fetchInitialItems('Drinks');
@@ -29,6 +30,7 @@ export default function MealDetail({ id }) {
     RecommendationDrinksFetch();
   }, []);
 
+  // coloca a receita no estado do Provider para ser recuperado na tela de RecipeInProgress
   useEffect(() => {
     setRecipeInProgress(recipe);
   }, [recipe]);

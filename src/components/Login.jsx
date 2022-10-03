@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import '../Styles/Login.css';
 import recipeApp from '../images/recipeApp.png';
+import { saveToLocalStorage } from '../services/localStorage';
 
 const PASSWORD_LENGTH = 7;
 
@@ -24,9 +25,9 @@ export default function Login() {
 
   const handleSubmit = () => {
     const userObj = { email };
-    localStorage.setItem('user', JSON.stringify(userObj));
-    localStorage.setItem('mealsToken', 1);
-    localStorage.setItem('drinksToken', 1);
+    saveToLocalStorage('user', userObj);
+    saveToLocalStorage('mealsToken', 1);
+    saveToLocalStorage('drinksToken', 1);
     history.push('/meals');
   };
 

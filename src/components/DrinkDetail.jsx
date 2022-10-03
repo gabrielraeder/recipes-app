@@ -21,6 +21,7 @@ export default function DrinkDetail({ id }) {
     idFetch();
   }, []);
 
+  // fetch para setar o estado das receitas recomendadas
   useEffect(() => {
     const RecommendationFoodFetch = async () => {
       const { meals } = await fetchInitialItems('Meals');
@@ -29,6 +30,7 @@ export default function DrinkDetail({ id }) {
     RecommendationFoodFetch();
   }, []);
 
+  // coloca a receita no estado do Provider para ser recuperado na tela de RecipeInProgress
   useEffect(() => {
     setRecipeInProgress(recipe);
   }, [recipe]);
@@ -39,6 +41,7 @@ export default function DrinkDetail({ id }) {
     const LAST_INGREDIENT = Object.keys(recipe).indexOf('strIngredient15');
     const FIRST_MEASURE = Object.keys(recipe).indexOf('strMeasure1');
     const LAST_MEASURE = Object.keys(recipe).indexOf('strMeasure15');
+    console.log(Object.values(recipe));
     const ingredValues = Object.values(recipe).slice(FIRST_INGREDIENT, LAST_INGREDIENT);
     const measuresValues = Object.values(recipe).slice(FIRST_MEASURE, LAST_MEASURE);
     setIngredients(ingredValues.filter((i) => i !== null));
