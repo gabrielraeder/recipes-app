@@ -11,10 +11,6 @@ export default function DrinkInProgress({ recipe }) {
   const [isAllChecked, setIsAllChecked] = useState(false);
 
   useEffect(() => {
-    setStoredInProgress(getSavedInProgress());
-  }, []);
-
-  useEffect(() => {
     setIsAllChecked(checks.every((check) => check === true));
   }, [checks]);
 
