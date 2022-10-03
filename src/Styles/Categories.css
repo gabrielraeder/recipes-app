@@ -22,7 +22,7 @@
 }
 
 .categoryBtn:active {
-  color: white;
   background-color: blueviolet;
+  color: white;
   transition: 0.5s;
 }

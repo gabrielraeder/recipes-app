@@ -1,0 +1,8 @@
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.scratchText {
+  text-decoration: line-through;
+}
