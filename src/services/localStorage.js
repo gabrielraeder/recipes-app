@@ -67,6 +67,13 @@ export const getSavedInProgress = () => {
   return savedOnKey;
 };
 
+export const removeFromInProgress = (title, id) => {
+  const savedOnKey = readSpecificKey('inProgressRecipes');
+  delete savedOnKey[title][id];
+
+  saveToLocalStorage('inProgressRecipes', savedOnKey);
+};
+
 // remove uma receita favoritada do localStorage
 export const removeFromFavorites = (key, id) => {
   const saved = readSpecificKey(key);
