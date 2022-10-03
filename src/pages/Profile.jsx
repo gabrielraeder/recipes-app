@@ -38,6 +38,13 @@ export default function Profile() {
           Favorite Recipes
         </button>
       </Link>
+      <Link to="/my-recipes">
+        <button
+          type="button"
+        >
+          My Recipes
+        </button>
+      </Link>
       <Link to="/">
         <button
           type="button"

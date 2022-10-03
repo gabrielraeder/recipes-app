@@ -1,6 +1,9 @@
 .footer {
+  align-items: center;
   background-color: #fcdc36;
   bottom: 0;
+  display: flex;
+  justify-content: center;
   left: 0;
   padding-top: 5px;
   position: fixed;
@@ -10,4 +13,8 @@
 
 .footer input {
   margin: 0 24px;
+}
+
+.plusIcon {
+  width: 30px;
 }

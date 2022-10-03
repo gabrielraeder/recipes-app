@@ -5,7 +5,7 @@ import RecipeCard from './RecipeCard';
 
 export default function Recommendations({ recommendations, title }) {
   return (
-    <Carousel>
+    <Carousel fade>
       <Carousel.Item>
         <div className="carouselItem">
           <RecipeCard

@@ -80,3 +80,17 @@ export const removeFromFavorites = (key, id) => {
   const excludeThruID = saved.filter((item) => item.id !== id);
   saveToLocalStorage(key, excludeThruID);
 };
+
+export const addMyNewRecipe = (value) => {
+  if (!JSON.parse(localStorage.getItem('myRecipes'))) {
+    localStorage.setItem('myRecipes', JSON.stringify([]));
+  }
+  const user = getSavedByKey('user');
+  const myrecipes = readSpecificKey('myRecipes');
+  let id = 1;
+  if (myrecipes.length > 0) {
+    id = +myrecipes[myrecipes.length - 1].id.match(/(\d+)/)[0] + 1;
+  }
+  const newObj = { ...value, id: `recipe${id}`, user };
+  saveToLocalStorage('myRecipes', [...myrecipes, newObj]);
+};

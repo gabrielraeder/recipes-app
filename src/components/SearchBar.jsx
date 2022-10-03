@@ -3,7 +3,8 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import { fetchSearchBar } from '../services/fetchAPI';
-// import '../Styles/SearchBar.css';
+import '../Styles/SearchBar.css';
+import { getSavedByKey } from '../services/localStorage';
 
 export default function SearchBar({ title }) {
   const [textInput, setTextInput] = useState('');
@@ -13,7 +14,39 @@ export default function SearchBar({ title }) {
 
   const { setSearchResponse } = useContext(Context);
 
-  const handerChange = (value, callback) => callback(value);
+  const handleChange = (value, callback) => callback(value);
+
+  const myRecipesRecover = () => {
+    const myRecipes = getSavedByKey('myRecipes');
+    const usersSearch = myRecipes.some((i) => i.user.email.includes(textInput));
+    if (myRecipes.length === 0 || !usersSearch) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return null;
+    }
+    const user = myRecipes.filter((i) => i.user.email.includes(textInput));
+    const mapped = user.map((i) => {
+      if (i.type === 'meal') {
+        return ({
+          strMeal: i.name,
+          strMealThumb: i.image,
+          idMeal: i.id,
+          strCategory: i.category,
+          strArea: i.nationality,
+        });
+      }
+      return ({
+        strDrink: i.name,
+        strDrinkThumb: i.image,
+        idDrink: i.id,
+        strCategory: i.category,
+        strArea: i.nationality,
+      });
+    });
+    const drinks = mapped.filter((i) => i.strDrink);
+    const meals = mapped.filter((i) => i.strMeal);
+    const save = { meals, drinks };
+    setSearchResponse(save);
+  };
 
   // fetch baseado nos states e no title, onde title define se pesquisará na API de bebidas o comidas
   // condicional 1: se o retorno da API é nulo retorna um alerta
@@ -38,7 +71,8 @@ export default function SearchBar({ title }) {
       global.alert('Your search must have only 1 (one) character');
       return null;
     }
-    fetchMeals();
+    if (radioInput !== 'userSearch') fetchMeals();
+    else myRecipesRecover();
   };
 
   return (
@@ -48,14 +82,13 @@ export default function SearchBar({ title }) {
         type="text"
         data-testid="search-input"
         value={ textInput }
-        onChange={ ({ target: { value } }) => (handerChange(value, setTextInput)) }
+        onChange={ ({ target: { value } }) => (handleChange(value, setTextInput)) }
       />
       <br />
       <div className="filtersContainer">
 
         <div className="searchFilters">
           <label htmlFor="ingredient" className="ingredientLabel">
-            Ingredient
             <input
               name="radios"
               className="ingredientInput"
@@ -64,12 +97,12 @@ export default function SearchBar({ title }) {
               type="radio"
               data-testid="ingredient-search-radio"
               checked={ radioInput === 'i' }
-              onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
+              onChange={ ({ target: { value } }) => (handleChange(value, setRadioInput)) }
             />
+            Ingredient
           </label>
 
           <label htmlFor="name" className="nameLabel">
-            Name
             <input
               name="radios"
               className="nameInput"
@@ -78,11 +111,11 @@ export default function SearchBar({ title }) {
               type="radio"
               data-testid="name-search-radio"
               checked={ radioInput === 's' }
-              onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
+              onChange={ ({ target: { value } }) => (handleChange(value, setRadioInput)) }
             />
+            Name
           </label>
           <label htmlFor="firstletter" className="firstLabel">
-            First letter
             <input
               name="radios"
               className="firstInput"
@@ -91,8 +124,21 @@ export default function SearchBar({ title }) {
               type="radio"
               data-testid="first-letter-search-radio"
               checked={ radioInput === 'f' }
-              onChange={ ({ target: { value } }) => (handerChange(value, setRadioInput)) }
+              onChange={ ({ target: { value } }) => (handleChange(value, setRadioInput)) }
             />
+            First letter
+          </label>
+          <label htmlFor="userSearch" className="firstLabel">
+            <input
+              name="radios"
+              className="firstInput"
+              id="userSearch"
+              value="userSearch"
+              type="radio"
+              checked={ radioInput === 'userSearch' }
+              onChange={ ({ target: { value } }) => (handleChange(value, setRadioInput)) }
+            />
+            User Search
           </label>
           <br />
         </div>
